@@ -21,7 +21,20 @@ package versioned
 import (
 	"fmt"
 
-	metalv1alpha1 "kubeform.dev/provider-equinixmetal-api/client/clientset/versioned/typed/metal/v1alpha1"
+	bgpv1alpha1 "kubeform.dev/provider-equinixmetal-api/client/clientset/versioned/typed/bgp/v1alpha1"
+	connectionv1alpha1 "kubeform.dev/provider-equinixmetal-api/client/clientset/versioned/typed/connection/v1alpha1"
+	devicev1alpha1 "kubeform.dev/provider-equinixmetal-api/client/clientset/versioned/typed/device/v1alpha1"
+	ipv1alpha1 "kubeform.dev/provider-equinixmetal-api/client/clientset/versioned/typed/ip/v1alpha1"
+	organizationv1alpha1 "kubeform.dev/provider-equinixmetal-api/client/clientset/versioned/typed/organization/v1alpha1"
+	portv1alpha1 "kubeform.dev/provider-equinixmetal-api/client/clientset/versioned/typed/port/v1alpha1"
+	projectv1alpha1 "kubeform.dev/provider-equinixmetal-api/client/clientset/versioned/typed/project/v1alpha1"
+	reservedv1alpha1 "kubeform.dev/provider-equinixmetal-api/client/clientset/versioned/typed/reserved/v1alpha1"
+	spotv1alpha1 "kubeform.dev/provider-equinixmetal-api/client/clientset/versioned/typed/spot/v1alpha1"
+	sshv1alpha1 "kubeform.dev/provider-equinixmetal-api/client/clientset/versioned/typed/ssh/v1alpha1"
+	userv1alpha1 "kubeform.dev/provider-equinixmetal-api/client/clientset/versioned/typed/user/v1alpha1"
+	virtualv1alpha1 "kubeform.dev/provider-equinixmetal-api/client/clientset/versioned/typed/virtual/v1alpha1"
+	vlanv1alpha1 "kubeform.dev/provider-equinixmetal-api/client/clientset/versioned/typed/vlan/v1alpha1"
+	volumev1alpha1 "kubeform.dev/provider-equinixmetal-api/client/clientset/versioned/typed/volume/v1alpha1"
 
 	discovery "k8s.io/client-go/discovery"
 	rest "k8s.io/client-go/rest"
@@ -30,19 +43,110 @@ import (
 
 type Interface interface {
 	Discovery() discovery.DiscoveryInterface
-	MetalV1alpha1() metalv1alpha1.MetalV1alpha1Interface
+	BgpV1alpha1() bgpv1alpha1.BgpV1alpha1Interface
+	ConnectionV1alpha1() connectionv1alpha1.ConnectionV1alpha1Interface
+	DeviceV1alpha1() devicev1alpha1.DeviceV1alpha1Interface
+	IpV1alpha1() ipv1alpha1.IpV1alpha1Interface
+	OrganizationV1alpha1() organizationv1alpha1.OrganizationV1alpha1Interface
+	PortV1alpha1() portv1alpha1.PortV1alpha1Interface
+	ProjectV1alpha1() projectv1alpha1.ProjectV1alpha1Interface
+	ReservedV1alpha1() reservedv1alpha1.ReservedV1alpha1Interface
+	SpotV1alpha1() spotv1alpha1.SpotV1alpha1Interface
+	SshV1alpha1() sshv1alpha1.SshV1alpha1Interface
+	UserV1alpha1() userv1alpha1.UserV1alpha1Interface
+	VirtualV1alpha1() virtualv1alpha1.VirtualV1alpha1Interface
+	VlanV1alpha1() vlanv1alpha1.VlanV1alpha1Interface
+	VolumeV1alpha1() volumev1alpha1.VolumeV1alpha1Interface
 }
 
 // Clientset contains the clients for groups. Each group has exactly one
 // version included in a Clientset.
 type Clientset struct {
 	*discovery.DiscoveryClient
-	metalV1alpha1 *metalv1alpha1.MetalV1alpha1Client
+	bgpV1alpha1          *bgpv1alpha1.BgpV1alpha1Client
+	connectionV1alpha1   *connectionv1alpha1.ConnectionV1alpha1Client
+	deviceV1alpha1       *devicev1alpha1.DeviceV1alpha1Client
+	ipV1alpha1           *ipv1alpha1.IpV1alpha1Client
+	organizationV1alpha1 *organizationv1alpha1.OrganizationV1alpha1Client
+	portV1alpha1         *portv1alpha1.PortV1alpha1Client
+	projectV1alpha1      *projectv1alpha1.ProjectV1alpha1Client
+	reservedV1alpha1     *reservedv1alpha1.ReservedV1alpha1Client
+	spotV1alpha1         *spotv1alpha1.SpotV1alpha1Client
+	sshV1alpha1          *sshv1alpha1.SshV1alpha1Client
+	userV1alpha1         *userv1alpha1.UserV1alpha1Client
+	virtualV1alpha1      *virtualv1alpha1.VirtualV1alpha1Client
+	vlanV1alpha1         *vlanv1alpha1.VlanV1alpha1Client
+	volumeV1alpha1       *volumev1alpha1.VolumeV1alpha1Client
 }
 
-// MetalV1alpha1 retrieves the MetalV1alpha1Client
-func (c *Clientset) MetalV1alpha1() metalv1alpha1.MetalV1alpha1Interface {
-	return c.metalV1alpha1
+// BgpV1alpha1 retrieves the BgpV1alpha1Client
+func (c *Clientset) BgpV1alpha1() bgpv1alpha1.BgpV1alpha1Interface {
+	return c.bgpV1alpha1
+}
+
+// ConnectionV1alpha1 retrieves the ConnectionV1alpha1Client
+func (c *Clientset) ConnectionV1alpha1() connectionv1alpha1.ConnectionV1alpha1Interface {
+	return c.connectionV1alpha1
+}
+
+// DeviceV1alpha1 retrieves the DeviceV1alpha1Client
+func (c *Clientset) DeviceV1alpha1() devicev1alpha1.DeviceV1alpha1Interface {
+	return c.deviceV1alpha1
+}
+
+// IpV1alpha1 retrieves the IpV1alpha1Client
+func (c *Clientset) IpV1alpha1() ipv1alpha1.IpV1alpha1Interface {
+	return c.ipV1alpha1
+}
+
+// OrganizationV1alpha1 retrieves the OrganizationV1alpha1Client
+func (c *Clientset) OrganizationV1alpha1() organizationv1alpha1.OrganizationV1alpha1Interface {
+	return c.organizationV1alpha1
+}
+
+// PortV1alpha1 retrieves the PortV1alpha1Client
+func (c *Clientset) PortV1alpha1() portv1alpha1.PortV1alpha1Interface {
+	return c.portV1alpha1
+}
+
+// ProjectV1alpha1 retrieves the ProjectV1alpha1Client
+func (c *Clientset) ProjectV1alpha1() projectv1alpha1.ProjectV1alpha1Interface {
+	return c.projectV1alpha1
+}
+
+// ReservedV1alpha1 retrieves the ReservedV1alpha1Client
+func (c *Clientset) ReservedV1alpha1() reservedv1alpha1.ReservedV1alpha1Interface {
+	return c.reservedV1alpha1
+}
+
+// SpotV1alpha1 retrieves the SpotV1alpha1Client
+func (c *Clientset) SpotV1alpha1() spotv1alpha1.SpotV1alpha1Interface {
+	return c.spotV1alpha1
+}
+
+// SshV1alpha1 retrieves the SshV1alpha1Client
+func (c *Clientset) SshV1alpha1() sshv1alpha1.SshV1alpha1Interface {
+	return c.sshV1alpha1
+}
+
+// UserV1alpha1 retrieves the UserV1alpha1Client
+func (c *Clientset) UserV1alpha1() userv1alpha1.UserV1alpha1Interface {
+	return c.userV1alpha1
+}
+
+// VirtualV1alpha1 retrieves the VirtualV1alpha1Client
+func (c *Clientset) VirtualV1alpha1() virtualv1alpha1.VirtualV1alpha1Interface {
+	return c.virtualV1alpha1
+}
+
+// VlanV1alpha1 retrieves the VlanV1alpha1Client
+func (c *Clientset) VlanV1alpha1() vlanv1alpha1.VlanV1alpha1Interface {
+	return c.vlanV1alpha1
+}
+
+// VolumeV1alpha1 retrieves the VolumeV1alpha1Client
+func (c *Clientset) VolumeV1alpha1() volumev1alpha1.VolumeV1alpha1Interface {
+	return c.volumeV1alpha1
 }
 
 // Discovery retrieves the DiscoveryClient
@@ -66,7 +170,59 @@ func NewForConfig(c *rest.Config) (*Clientset, error) {
 	}
 	var cs Clientset
 	var err error
-	cs.metalV1alpha1, err = metalv1alpha1.NewForConfig(&configShallowCopy)
+	cs.bgpV1alpha1, err = bgpv1alpha1.NewForConfig(&configShallowCopy)
+	if err != nil {
+		return nil, err
+	}
+	cs.connectionV1alpha1, err = connectionv1alpha1.NewForConfig(&configShallowCopy)
+	if err != nil {
+		return nil, err
+	}
+	cs.deviceV1alpha1, err = devicev1alpha1.NewForConfig(&configShallowCopy)
+	if err != nil {
+		return nil, err
+	}
+	cs.ipV1alpha1, err = ipv1alpha1.NewForConfig(&configShallowCopy)
+	if err != nil {
+		return nil, err
+	}
+	cs.organizationV1alpha1, err = organizationv1alpha1.NewForConfig(&configShallowCopy)
+	if err != nil {
+		return nil, err
+	}
+	cs.portV1alpha1, err = portv1alpha1.NewForConfig(&configShallowCopy)
+	if err != nil {
+		return nil, err
+	}
+	cs.projectV1alpha1, err = projectv1alpha1.NewForConfig(&configShallowCopy)
+	if err != nil {
+		return nil, err
+	}
+	cs.reservedV1alpha1, err = reservedv1alpha1.NewForConfig(&configShallowCopy)
+	if err != nil {
+		return nil, err
+	}
+	cs.spotV1alpha1, err = spotv1alpha1.NewForConfig(&configShallowCopy)
+	if err != nil {
+		return nil, err
+	}
+	cs.sshV1alpha1, err = sshv1alpha1.NewForConfig(&configShallowCopy)
+	if err != nil {
+		return nil, err
+	}
+	cs.userV1alpha1, err = userv1alpha1.NewForConfig(&configShallowCopy)
+	if err != nil {
+		return nil, err
+	}
+	cs.virtualV1alpha1, err = virtualv1alpha1.NewForConfig(&configShallowCopy)
+	if err != nil {
+		return nil, err
+	}
+	cs.vlanV1alpha1, err = vlanv1alpha1.NewForConfig(&configShallowCopy)
+	if err != nil {
+		return nil, err
+	}
+	cs.volumeV1alpha1, err = volumev1alpha1.NewForConfig(&configShallowCopy)
 	if err != nil {
 		return nil, err
 	}
@@ -82,7 +238,20 @@ func NewForConfig(c *rest.Config) (*Clientset, error) {
 // panics if there is an error in the config.
 func NewForConfigOrDie(c *rest.Config) *Clientset {
 	var cs Clientset
-	cs.metalV1alpha1 = metalv1alpha1.NewForConfigOrDie(c)
+	cs.bgpV1alpha1 = bgpv1alpha1.NewForConfigOrDie(c)
+	cs.connectionV1alpha1 = connectionv1alpha1.NewForConfigOrDie(c)
+	cs.deviceV1alpha1 = devicev1alpha1.NewForConfigOrDie(c)
+	cs.ipV1alpha1 = ipv1alpha1.NewForConfigOrDie(c)
+	cs.organizationV1alpha1 = organizationv1alpha1.NewForConfigOrDie(c)
+	cs.portV1alpha1 = portv1alpha1.NewForConfigOrDie(c)
+	cs.projectV1alpha1 = projectv1alpha1.NewForConfigOrDie(c)
+	cs.reservedV1alpha1 = reservedv1alpha1.NewForConfigOrDie(c)
+	cs.spotV1alpha1 = spotv1alpha1.NewForConfigOrDie(c)
+	cs.sshV1alpha1 = sshv1alpha1.NewForConfigOrDie(c)
+	cs.userV1alpha1 = userv1alpha1.NewForConfigOrDie(c)
+	cs.virtualV1alpha1 = virtualv1alpha1.NewForConfigOrDie(c)
+	cs.vlanV1alpha1 = vlanv1alpha1.NewForConfigOrDie(c)
+	cs.volumeV1alpha1 = volumev1alpha1.NewForConfigOrDie(c)
 
 	cs.DiscoveryClient = discovery.NewDiscoveryClientForConfigOrDie(c)
 	return &cs
@@ -91,7 +260,20 @@ func NewForConfigOrDie(c *rest.Config) *Clientset {
 // New creates a new Clientset for the given RESTClient.
 func New(c rest.Interface) *Clientset {
 	var cs Clientset
-	cs.metalV1alpha1 = metalv1alpha1.New(c)
+	cs.bgpV1alpha1 = bgpv1alpha1.New(c)
+	cs.connectionV1alpha1 = connectionv1alpha1.New(c)
+	cs.deviceV1alpha1 = devicev1alpha1.New(c)
+	cs.ipV1alpha1 = ipv1alpha1.New(c)
+	cs.organizationV1alpha1 = organizationv1alpha1.New(c)
+	cs.portV1alpha1 = portv1alpha1.New(c)
+	cs.projectV1alpha1 = projectv1alpha1.New(c)
+	cs.reservedV1alpha1 = reservedv1alpha1.New(c)
+	cs.spotV1alpha1 = spotv1alpha1.New(c)
+	cs.sshV1alpha1 = sshv1alpha1.New(c)
+	cs.userV1alpha1 = userv1alpha1.New(c)
+	cs.virtualV1alpha1 = virtualv1alpha1.New(c)
+	cs.vlanV1alpha1 = vlanv1alpha1.New(c)
+	cs.volumeV1alpha1 = volumev1alpha1.New(c)
 
 	cs.DiscoveryClient = discovery.NewDiscoveryClient(c)
 	return &cs

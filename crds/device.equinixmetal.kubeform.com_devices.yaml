@@ -1,0 +1,645 @@
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    app.kubernetes.io/name: equinixmetal.kubeform.com
+    app.kubernetes.io/part-of: kubeform.com
+  name: devices.device.equinixmetal.kubeform.com
+spec:
+  group: device.equinixmetal.kubeform.com
+  names:
+    kind: Device
+    listKind: DeviceList
+    plural: devices
+    singular: device
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.phase
+      name: Phase
+      type: string
+    name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            properties:
+              providerRef:
+                description: LocalObjectReference contains enough information to let
+                  you locate the referenced object inside the same namespace.
+                properties:
+                  name:
+                    description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                      TODO: Add other useful fields. apiVersion, kind, uid?'
+                    type: string
+                type: object
+              resource:
+                properties:
+                  accessPrivateIpv4:
+                    description: The ipv4 private IP assigned to the device
+                    type: string
+                  accessPublicIpv4:
+                    description: The ipv4 maintenance IP assigned to the device
+                    type: string
+                  accessPublicIpv6:
+                    description: The ipv6 maintenance IP assigned to the device
+                    type: string
+                  alwaysPxe:
+                    description: If true, a device with OS custom_ipxe will
+                    type: boolean
+                  billingCycle:
+                    description: monthly or hourly
+                    type: string
+                  created:
+                    description: The timestamp for when the device was created
+                    type: string
+                  deployedFacility:
+                    description: The facility where the device is deployed
+                    type: string
+                  deployedHardwareReservationID:
+                    description: ID of hardware reservation where this device was
+                      deployed. It is useful when using the next-available hardware
+                      reservation
+                    type: string
+                  description:
+                    description: Description string for the device
+                    type: string
+                  facilities:
+                    description: List of facility codes with deployment preferences.
+                      Equinix Metal API will go through the list and will deploy your
+                      device to first facility with free capacity. List items must
+                      be facility codes or any (a wildcard). To find the facility
+                      code, visit [Facilities API docs](https://metal.equinix.com/developers/api/facilities/),
+                      set your API auth token in the top of the page and see JSON
+                      from the API response. Conflicts with metro
+                    items:
+                      type: string
+                    minItems: 1
+                    type: array
+                  forceDetachVolumes:
+                    description: Delete device even if it has volumes attached. Only
+                      applies for destroy action
+                    type: boolean
+                  hardwareReservationID:
+                    description: The UUID of the hardware reservation where you want
+                      this device deployed, or next-available if you want to pick
+                      your next available reservation automatically
+                    type: string
+                  hostname:
+                    description: The device name
+                    type: string
+                  id:
+                    type: string
+                  ipAddress:
+                    description: A list of IP address types for the device (structure
+                      is documented below)
+                    items:
+                      properties:
+                        cidr:
+                          description: CIDR suffix for IP block assigned to this device
+                          format: int64
+                          type: integer
+                        reservationIDS:
+                          description: IDs of reservations to pick the blocks from
+                          items:
+                            type: string
+                          minItems: 1
+                          type: array
+                        type:
+                          description: one of public_ipv4,private_ipv4,public_ipv6
+                          type: string
+                      required:
+                      - type
+                      type: object
+                    minItems: 1
+                    type: array
+                  ipxeScriptURL:
+                    description: URL pointing to a hosted iPXE script. More
+                    type: string
+                  locked:
+                    description: Whether the device is locked
+                    type: boolean
+                  metro:
+                    description: Metro area for the new device. Conflicts with facilities
+                    type: string
+                  network:
+                    description: 'The device''s private and public IP (v4 and v6)
+                      network details. When a device is run without any special network
+                      configuration, it will have 3 addresses: public ipv4, private
+                      ipv4 and ipv6'
+                    items:
+                      properties:
+                        address:
+                          description: IPv4 or IPv6 address string
+                          type: string
+                        cidr:
+                          description: CIDR suffix for IP address block to be assigned,
+                            i.e. amount of addresses
+                          format: int64
+                          type: integer
+                        family:
+                          description: IP version - "4" or "6"
+                          format: int64
+                          type: integer
+                        gateway:
+                          description: Address of router
+                          type: string
+                        public:
+                          description: Whether the address is routable from the Internet
+                          type: boolean
+                      type: object
+                    type: array
+                  networkType:
+                    description: Network type of a device, used in [Layer 2 networking](https://metal.equinix.com/developers/docs/networking/layer2/).
+                      Will be one of layer3, hybrid, hybrid-bonded, layer2-individual,
+                      layer2-bonded Deprecated
+                    type: string
+                  operatingSystem:
+                    description: The operating system slug. To find the slug, or visit
+                      [Operating Systems API docs](https://metal.equinix.com/developers/api/operatingsystems),
+                      set your API auth token in the top of the page and see JSON
+                      from the API response
+                    type: string
+                  plan:
+                    description: The device plan slug. To find the plan slug, visit
+                      [Device plans API docs](https://metal.equinix.com/developers/api/plans),
+                      set your auth token in the top of the page and see JSON from
+                      the API response
+                    type: string
+                  ports:
+                    description: Ports assigned to the device
+                    items:
+                      properties:
+                        ID:
+                          description: The ID of the device
+                          type: string
+                        bonded:
+                          description: Whether this port is part of a bond in bonded
+                            network setup
+                          type: boolean
+                        mac:
+                          description: MAC address assigned to the port
+                          type: string
+                        name:
+                          description: Name of the port (e.g. eth0, or bond0)
+                          type: string
+                        type:
+                          description: One of [private_ipv4, public_ipv4, public_ipv6]
+                          type: string
+                      type: object
+                    type: array
+                  projectID:
+                    description: The ID of the project in which to create the device
+                    type: string
+                  projectSSHKeyIDS:
+                    description: Array of IDs of the project SSH keys which should
+                      be added to the device. If you omit this, SSH keys of all the
+                      members of the parent project will be added to the device. If
+                      you specify this array, only the listed project SSH keys will
+                      be added. Project SSH keys can be created with the [metal_project_ssh_key](project_ssh_key.md)
+                      resource
+                    items:
+                      type: string
+                    type: array
+                  reinstall:
+                    properties:
+                      deprovisionFast:
+                        description: Whether the OS disk should be filled with `00h`
+                          bytes before reinstall
+                        type: boolean
+                      enabled:
+                        description: Whether the device should be reinstalled instead
+                          of destroyed
+                        type: boolean
+                      preserveData:
+                        description: Whether the non-OS disks should be kept or wiped
+                          during reinstall
+                        type: boolean
+                    type: object
+                  sshKeyIDS:
+                    description: List of IDs of SSH keys deployed in the device, can
+                      be both user and project SSH keys
+                    items:
+                      type: string
+                    type: array
+                  state:
+                    description: The status of the device
+                    type: string
+                  storage:
+                    description: JSON for custom partitioning. Only usable on reserved
+                      hardware. More information in in the [Custom Partitioning and
+                      RAID](https://metal.equinix.com/developers/docs/servers/custom-partitioning-raid/)
+                      doc
+                    type: string
+                  tags:
+                    description: Tags attached to the device
+                    items:
+                      type: string
+                    type: array
+                  timeouts:
+                    properties:
+                      create:
+                        description: A Duration represents the elapsed time between
+                          two instants as an int64 nanosecond count. The representation
+                          limits the largest representable duration to approximately
+                          290 years.
+                        format: int64
+                        type: integer
+                      default:
+                        description: A Duration represents the elapsed time between
+                          two instants as an int64 nanosecond count. The representation
+                          limits the largest representable duration to approximately
+                          290 years.
+                        format: int64
+                        type: integer
+                      delete:
+                        description: A Duration represents the elapsed time between
+                          two instants as an int64 nanosecond count. The representation
+                          limits the largest representable duration to approximately
+                          290 years.
+                        format: int64
+                        type: integer
+                      read:
+                        description: A Duration represents the elapsed time between
+                          two instants as an int64 nanosecond count. The representation
+                          limits the largest representable duration to approximately
+                          290 years.
+                        format: int64
+                        type: integer
+                      update:
+                        description: A Duration represents the elapsed time between
+                          two instants as an int64 nanosecond count. The representation
+                          limits the largest representable duration to approximately
+                          290 years.
+                        format: int64
+                        type: integer
+                    type: object
+                  updated:
+                    description: The timestamp for the last time the device was updated
+                    type: string
+                  waitForReservationDeprovision:
+                    description: Only used for devices in reserved hardware. If set,
+                      the deletion of this device will block until the hardware reservation
+                      is marked provisionable (about 4 minutes in August 2019)
+                    type: boolean
+                required:
+                - billingCycle
+                - hostname
+                - operatingSystem
+                - plan
+                - projectID
+                type: object
+              secretRef:
+                description: LocalObjectReference contains enough information to let
+                  you locate the referenced object inside the same namespace.
+                properties:
+                  name:
+                    description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                      TODO: Add other useful fields. apiVersion, kind, uid?'
+                    type: string
+                type: object
+              state:
+                properties:
+                  accessPrivateIpv4:
+                    description: The ipv4 private IP assigned to the device
+                    type: string
+                  accessPublicIpv4:
+                    description: The ipv4 maintenance IP assigned to the device
+                    type: string
+                  accessPublicIpv6:
+                    description: The ipv6 maintenance IP assigned to the device
+                    type: string
+                  alwaysPxe:
+                    description: If true, a device with OS custom_ipxe will
+                    type: boolean
+                  billingCycle:
+                    description: monthly or hourly
+                    type: string
+                  created:
+                    description: The timestamp for when the device was created
+                    type: string
+                  deployedFacility:
+                    description: The facility where the device is deployed
+                    type: string
+                  deployedHardwareReservationID:
+                    description: ID of hardware reservation where this device was
+                      deployed. It is useful when using the next-available hardware
+                      reservation
+                    type: string
+                  description:
+                    description: Description string for the device
+                    type: string
+                  facilities:
+                    description: List of facility codes with deployment preferences.
+                      Equinix Metal API will go through the list and will deploy your
+                      device to first facility with free capacity. List items must
+                      be facility codes or any (a wildcard). To find the facility
+                      code, visit [Facilities API docs](https://metal.equinix.com/developers/api/facilities/),
+                      set your API auth token in the top of the page and see JSON
+                      from the API response. Conflicts with metro
+                    items:
+                      type: string
+                    minItems: 1
+                    type: array
+                  forceDetachVolumes:
+                    description: Delete device even if it has volumes attached. Only
+                      applies for destroy action
+                    type: boolean
+                  hardwareReservationID:
+                    description: The UUID of the hardware reservation where you want
+                      this device deployed, or next-available if you want to pick
+                      your next available reservation automatically
+                    type: string
+                  hostname:
+                    description: The device name
+                    type: string
+                  id:
+                    type: string
+                  ipAddress:
+                    description: A list of IP address types for the device (structure
+                      is documented below)
+                    items:
+                      properties:
+                        cidr:
+                          description: CIDR suffix for IP block assigned to this device
+                          format: int64
+                          type: integer
+                        reservationIDS:
+                          description: IDs of reservations to pick the blocks from
+                          items:
+                            type: string
+                          minItems: 1
+                          type: array
+                        type:
+                          description: one of public_ipv4,private_ipv4,public_ipv6
+                          type: string
+                      required:
+                      - type
+                      type: object
+                    minItems: 1
+                    type: array
+                  ipxeScriptURL:
+                    description: URL pointing to a hosted iPXE script. More
+                    type: string
+                  locked:
+                    description: Whether the device is locked
+                    type: boolean
+                  metro:
+                    description: Metro area for the new device. Conflicts with facilities
+                    type: string
+                  network:
+                    description: 'The device''s private and public IP (v4 and v6)
+                      network details. When a device is run without any special network
+                      configuration, it will have 3 addresses: public ipv4, private
+                      ipv4 and ipv6'
+                    items:
+                      properties:
+                        address:
+                          description: IPv4 or IPv6 address string
+                          type: string
+                        cidr:
+                          description: CIDR suffix for IP address block to be assigned,
+                            i.e. amount of addresses
+                          format: int64
+                          type: integer
+                        family:
+                          description: IP version - "4" or "6"
+                          format: int64
+                          type: integer
+                        gateway:
+                          description: Address of router
+                          type: string
+                        public:
+                          description: Whether the address is routable from the Internet
+                          type: boolean
+                      type: object
+                    type: array
+                  networkType:
+                    description: Network type of a device, used in [Layer 2 networking](https://metal.equinix.com/developers/docs/networking/layer2/).
+                      Will be one of layer3, hybrid, hybrid-bonded, layer2-individual,
+                      layer2-bonded Deprecated
+                    type: string
+                  operatingSystem:
+                    description: The operating system slug. To find the slug, or visit
+                      [Operating Systems API docs](https://metal.equinix.com/developers/api/operatingsystems),
+                      set your API auth token in the top of the page and see JSON
+                      from the API response
+                    type: string
+                  plan:
+                    description: The device plan slug. To find the plan slug, visit
+                      [Device plans API docs](https://metal.equinix.com/developers/api/plans),
+                      set your auth token in the top of the page and see JSON from
+                      the API response
+                    type: string
+                  ports:
+                    description: Ports assigned to the device
+                    items:
+                      properties:
+                        ID:
+                          description: The ID of the device
+                          type: string
+                        bonded:
+                          description: Whether this port is part of a bond in bonded
+                            network setup
+                          type: boolean
+                        mac:
+                          description: MAC address assigned to the port
+                          type: string
+                        name:
+                          description: Name of the port (e.g. eth0, or bond0)
+                          type: string
+                        type:
+                          description: One of [private_ipv4, public_ipv4, public_ipv6]
+                          type: string
+                      type: object
+                    type: array
+                  projectID:
+                    description: The ID of the project in which to create the device
+                    type: string
+                  projectSSHKeyIDS:
+                    description: Array of IDs of the project SSH keys which should
+                      be added to the device. If you omit this, SSH keys of all the
+                      members of the parent project will be added to the device. If
+                      you specify this array, only the listed project SSH keys will
+                      be added. Project SSH keys can be created with the [metal_project_ssh_key](project_ssh_key.md)
+                      resource
+                    items:
+                      type: string
+                    type: array
+                  reinstall:
+                    properties:
+                      deprovisionFast:
+                        description: Whether the OS disk should be filled with `00h`
+                          bytes before reinstall
+                        type: boolean
+                      enabled:
+                        description: Whether the device should be reinstalled instead
+                          of destroyed
+                        type: boolean
+                      preserveData:
+                        description: Whether the non-OS disks should be kept or wiped
+                          during reinstall
+                        type: boolean
+                    type: object
+                  sshKeyIDS:
+                    description: List of IDs of SSH keys deployed in the device, can
+                      be both user and project SSH keys
+                    items:
+                      type: string
+                    type: array
+                  state:
+                    description: The status of the device
+                    type: string
+                  storage:
+                    description: JSON for custom partitioning. Only usable on reserved
+                      hardware. More information in in the [Custom Partitioning and
+                      RAID](https://metal.equinix.com/developers/docs/servers/custom-partitioning-raid/)
+                      doc
+                    type: string
+                  tags:
+                    description: Tags attached to the device
+                    items:
+                      type: string
+                    type: array
+                  timeouts:
+                    properties:
+                      create:
+                        description: A Duration represents the elapsed time between
+                          two instants as an int64 nanosecond count. The representation
+                          limits the largest representable duration to approximately
+                          290 years.
+                        format: int64
+                        type: integer
+                      default:
+                        description: A Duration represents the elapsed time between
+                          two instants as an int64 nanosecond count. The representation
+                          limits the largest representable duration to approximately
+                          290 years.
+                        format: int64
+                        type: integer
+                      delete:
+                        description: A Duration represents the elapsed time between
+                          two instants as an int64 nanosecond count. The representation
+                          limits the largest representable duration to approximately
+                          290 years.
+                        format: int64
+                        type: integer
+                      read:
+                        description: A Duration represents the elapsed time between
+                          two instants as an int64 nanosecond count. The representation
+                          limits the largest representable duration to approximately
+                          290 years.
+                        format: int64
+                        type: integer
+                      update:
+                        description: A Duration represents the elapsed time between
+                          two instants as an int64 nanosecond count. The representation
+                          limits the largest representable duration to approximately
+                          290 years.
+                        format: int64
+                        type: integer
+                    type: object
+                  updated:
+                    description: The timestamp for the last time the device was updated
+                    type: string
+                  waitForReservationDeprovision:
+                    description: Only used for devices in reserved hardware. If set,
+                      the deletion of this device will block until the hardware reservation
+                      is marked provisionable (about 4 minutes in August 2019)
+                    type: boolean
+                required:
+                - billingCycle
+                - hostname
+                - operatingSystem
+                - plan
+                - projectID
+                type: object
+              terminationPolicy:
+                enum:
+                - Delete
+                - DoNotTerminate
+                type: string
+              updatePolicy:
+                enum:
+                - Destroy
+                - DoNotDestroy
+                type: string
+            required:
+            - providerRef
+            - resource
+            type: object
+          status:
+            properties:
+              conditions:
+                items:
+                  properties:
+                    lastTransitionTime:
+                      description: Last time the condition transitioned from one status
+                        to another. This should be when the underlying condition changed.  If
+                        that is not known, then using the time when the API field
+                        changed is acceptable.
+                      format: date-time
+                      type: string
+                    message:
+                      description: A human readable message indicating details about
+                        the transition. This field may be empty.
+                      type: string
+                    observedGeneration:
+                      description: If set, this represents the .metadata.generation
+                        that the condition was set based upon. For instance, if .metadata.generation
+                        is currently 12, but the .status.condition[x].observedGeneration
+                        is 9, the condition is out of date with respect to the current
+                        state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: The reason for the condition's last transition
+                        in CamelCase. The specific API may choose whether or not this
+                        field is considered a guaranteed API. This field may not be
+                        empty.
+                      type: string
+                    status:
+                      description: Status of the condition, one of True, False, Unknown.
+                      type: string
+                    type:
+                      description: Type of condition in CamelCase or in foo.example.com/CamelCase.
+                        Many .condition.type values are consistent across resources
+                        like Available, but because arbitrary conditions can be useful
+                        (see .node.status.conditions), the ability to deconflict is
+                        important.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - message
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+              observedGeneration:
+                description: Resource generation, which is updated on mutation by
+                  the API Server.
+                format: int64
+                type: integer
+              phase:
+                description: Status defines the set of statuses a resource can have.
+                type: string
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

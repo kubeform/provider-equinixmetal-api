@@ -19,7 +19,20 @@ limitations under the License.
 package scheme
 
 import (
-	metalv1alpha1 "kubeform.dev/provider-equinixmetal-api/apis/metal/v1alpha1"
+	bgpv1alpha1 "kubeform.dev/provider-equinixmetal-api/apis/bgp/v1alpha1"
+	connectionv1alpha1 "kubeform.dev/provider-equinixmetal-api/apis/connection/v1alpha1"
+	devicev1alpha1 "kubeform.dev/provider-equinixmetal-api/apis/device/v1alpha1"
+	ipv1alpha1 "kubeform.dev/provider-equinixmetal-api/apis/ip/v1alpha1"
+	organizationv1alpha1 "kubeform.dev/provider-equinixmetal-api/apis/organization/v1alpha1"
+	portv1alpha1 "kubeform.dev/provider-equinixmetal-api/apis/port/v1alpha1"
+	projectv1alpha1 "kubeform.dev/provider-equinixmetal-api/apis/project/v1alpha1"
+	reservedv1alpha1 "kubeform.dev/provider-equinixmetal-api/apis/reserved/v1alpha1"
+	spotv1alpha1 "kubeform.dev/provider-equinixmetal-api/apis/spot/v1alpha1"
+	sshv1alpha1 "kubeform.dev/provider-equinixmetal-api/apis/ssh/v1alpha1"
+	userv1alpha1 "kubeform.dev/provider-equinixmetal-api/apis/user/v1alpha1"
+	virtualv1alpha1 "kubeform.dev/provider-equinixmetal-api/apis/virtual/v1alpha1"
+	vlanv1alpha1 "kubeform.dev/provider-equinixmetal-api/apis/vlan/v1alpha1"
+	volumev1alpha1 "kubeform.dev/provider-equinixmetal-api/apis/volume/v1alpha1"
 
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"
@@ -32,7 +45,20 @@ var Scheme = runtime.NewScheme()
 var Codecs = serializer.NewCodecFactory(Scheme)
 var ParameterCodec = runtime.NewParameterCodec(Scheme)
 var localSchemeBuilder = runtime.SchemeBuilder{
-	metalv1alpha1.AddToScheme,
+	bgpv1alpha1.AddToScheme,
+	connectionv1alpha1.AddToScheme,
+	devicev1alpha1.AddToScheme,
+	ipv1alpha1.AddToScheme,
+	organizationv1alpha1.AddToScheme,
+	portv1alpha1.AddToScheme,
+	projectv1alpha1.AddToScheme,
+	reservedv1alpha1.AddToScheme,
+	spotv1alpha1.AddToScheme,
+	sshv1alpha1.AddToScheme,
+	userv1alpha1.AddToScheme,
+	virtualv1alpha1.AddToScheme,
+	vlanv1alpha1.AddToScheme,
+	volumev1alpha1.AddToScheme,
 }
 
 // AddToScheme adds all types of this clientset into the given scheme. This allows composition

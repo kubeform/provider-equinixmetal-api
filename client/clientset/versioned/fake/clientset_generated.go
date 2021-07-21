@@ -20,8 +20,34 @@ package fake
 
 import (
 	clientset "kubeform.dev/provider-equinixmetal-api/client/clientset/versioned"
-	metalv1alpha1 "kubeform.dev/provider-equinixmetal-api/client/clientset/versioned/typed/metal/v1alpha1"
-	fakemetalv1alpha1 "kubeform.dev/provider-equinixmetal-api/client/clientset/versioned/typed/metal/v1alpha1/fake"
+	bgpv1alpha1 "kubeform.dev/provider-equinixmetal-api/client/clientset/versioned/typed/bgp/v1alpha1"
+	fakebgpv1alpha1 "kubeform.dev/provider-equinixmetal-api/client/clientset/versioned/typed/bgp/v1alpha1/fake"
+	connectionv1alpha1 "kubeform.dev/provider-equinixmetal-api/client/clientset/versioned/typed/connection/v1alpha1"
+	fakeconnectionv1alpha1 "kubeform.dev/provider-equinixmetal-api/client/clientset/versioned/typed/connection/v1alpha1/fake"
+	devicev1alpha1 "kubeform.dev/provider-equinixmetal-api/client/clientset/versioned/typed/device/v1alpha1"
+	fakedevicev1alpha1 "kubeform.dev/provider-equinixmetal-api/client/clientset/versioned/typed/device/v1alpha1/fake"
+	ipv1alpha1 "kubeform.dev/provider-equinixmetal-api/client/clientset/versioned/typed/ip/v1alpha1"
+	fakeipv1alpha1 "kubeform.dev/provider-equinixmetal-api/client/clientset/versioned/typed/ip/v1alpha1/fake"
+	organizationv1alpha1 "kubeform.dev/provider-equinixmetal-api/client/clientset/versioned/typed/organization/v1alpha1"
+	fakeorganizationv1alpha1 "kubeform.dev/provider-equinixmetal-api/client/clientset/versioned/typed/organization/v1alpha1/fake"
+	portv1alpha1 "kubeform.dev/provider-equinixmetal-api/client/clientset/versioned/typed/port/v1alpha1"
+	fakeportv1alpha1 "kubeform.dev/provider-equinixmetal-api/client/clientset/versioned/typed/port/v1alpha1/fake"
+	projectv1alpha1 "kubeform.dev/provider-equinixmetal-api/client/clientset/versioned/typed/project/v1alpha1"
+	fakeprojectv1alpha1 "kubeform.dev/provider-equinixmetal-api/client/clientset/versioned/typed/project/v1alpha1/fake"
+	reservedv1alpha1 "kubeform.dev/provider-equinixmetal-api/client/clientset/versioned/typed/reserved/v1alpha1"
+	fakereservedv1alpha1 "kubeform.dev/provider-equinixmetal-api/client/clientset/versioned/typed/reserved/v1alpha1/fake"
+	spotv1alpha1 "kubeform.dev/provider-equinixmetal-api/client/clientset/versioned/typed/spot/v1alpha1"
+	fakespotv1alpha1 "kubeform.dev/provider-equinixmetal-api/client/clientset/versioned/typed/spot/v1alpha1/fake"
+	sshv1alpha1 "kubeform.dev/provider-equinixmetal-api/client/clientset/versioned/typed/ssh/v1alpha1"
+	fakesshv1alpha1 "kubeform.dev/provider-equinixmetal-api/client/clientset/versioned/typed/ssh/v1alpha1/fake"
+	userv1alpha1 "kubeform.dev/provider-equinixmetal-api/client/clientset/versioned/typed/user/v1alpha1"
+	fakeuserv1alpha1 "kubeform.dev/provider-equinixmetal-api/client/clientset/versioned/typed/user/v1alpha1/fake"
+	virtualv1alpha1 "kubeform.dev/provider-equinixmetal-api/client/clientset/versioned/typed/virtual/v1alpha1"
+	fakevirtualv1alpha1 "kubeform.dev/provider-equinixmetal-api/client/clientset/versioned/typed/virtual/v1alpha1/fake"
+	vlanv1alpha1 "kubeform.dev/provider-equinixmetal-api/client/clientset/versioned/typed/vlan/v1alpha1"
+	fakevlanv1alpha1 "kubeform.dev/provider-equinixmetal-api/client/clientset/versioned/typed/vlan/v1alpha1/fake"
+	volumev1alpha1 "kubeform.dev/provider-equinixmetal-api/client/clientset/versioned/typed/volume/v1alpha1"
+	fakevolumev1alpha1 "kubeform.dev/provider-equinixmetal-api/client/clientset/versioned/typed/volume/v1alpha1/fake"
 
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/watch"
@@ -77,7 +103,72 @@ func (c *Clientset) Tracker() testing.ObjectTracker {
 
 var _ clientset.Interface = &Clientset{}
 
-// MetalV1alpha1 retrieves the MetalV1alpha1Client
-func (c *Clientset) MetalV1alpha1() metalv1alpha1.MetalV1alpha1Interface {
-	return &fakemetalv1alpha1.FakeMetalV1alpha1{Fake: &c.Fake}
+// BgpV1alpha1 retrieves the BgpV1alpha1Client
+func (c *Clientset) BgpV1alpha1() bgpv1alpha1.BgpV1alpha1Interface {
+	return &fakebgpv1alpha1.FakeBgpV1alpha1{Fake: &c.Fake}
+}
+
+// ConnectionV1alpha1 retrieves the ConnectionV1alpha1Client
+func (c *Clientset) ConnectionV1alpha1() connectionv1alpha1.ConnectionV1alpha1Interface {
+	return &fakeconnectionv1alpha1.FakeConnectionV1alpha1{Fake: &c.Fake}
+}
+
+// DeviceV1alpha1 retrieves the DeviceV1alpha1Client
+func (c *Clientset) DeviceV1alpha1() devicev1alpha1.DeviceV1alpha1Interface {
+	return &fakedevicev1alpha1.FakeDeviceV1alpha1{Fake: &c.Fake}
+}
+
+// IpV1alpha1 retrieves the IpV1alpha1Client
+func (c *Clientset) IpV1alpha1() ipv1alpha1.IpV1alpha1Interface {
+	return &fakeipv1alpha1.FakeIpV1alpha1{Fake: &c.Fake}
+}
+
+// OrganizationV1alpha1 retrieves the OrganizationV1alpha1Client
+func (c *Clientset) OrganizationV1alpha1() organizationv1alpha1.OrganizationV1alpha1Interface {
+	return &fakeorganizationv1alpha1.FakeOrganizationV1alpha1{Fake: &c.Fake}
+}
+
+// PortV1alpha1 retrieves the PortV1alpha1Client
+func (c *Clientset) PortV1alpha1() portv1alpha1.PortV1alpha1Interface {
+	return &fakeportv1alpha1.FakePortV1alpha1{Fake: &c.Fake}
+}
+
+// ProjectV1alpha1 retrieves the ProjectV1alpha1Client
+func (c *Clientset) ProjectV1alpha1() projectv1alpha1.ProjectV1alpha1Interface {
+	return &fakeprojectv1alpha1.FakeProjectV1alpha1{Fake: &c.Fake}
+}
+
+// ReservedV1alpha1 retrieves the ReservedV1alpha1Client
+func (c *Clientset) ReservedV1alpha1() reservedv1alpha1.ReservedV1alpha1Interface {
+	return &fakereservedv1alpha1.FakeReservedV1alpha1{Fake: &c.Fake}
+}
+
+// SpotV1alpha1 retrieves the SpotV1alpha1Client
+func (c *Clientset) SpotV1alpha1() spotv1alpha1.SpotV1alpha1Interface {
+	return &fakespotv1alpha1.FakeSpotV1alpha1{Fake: &c.Fake}
+}
+
+// SshV1alpha1 retrieves the SshV1alpha1Client
+func (c *Clientset) SshV1alpha1() sshv1alpha1.SshV1alpha1Interface {
+	return &fakesshv1alpha1.FakeSshV1alpha1{Fake: &c.Fake}
+}
+
+// UserV1alpha1 retrieves the UserV1alpha1Client
+func (c *Clientset) UserV1alpha1() userv1alpha1.UserV1alpha1Interface {
+	return &fakeuserv1alpha1.FakeUserV1alpha1{Fake: &c.Fake}
+}
+
+// VirtualV1alpha1 retrieves the VirtualV1alpha1Client
+func (c *Clientset) VirtualV1alpha1() virtualv1alpha1.VirtualV1alpha1Interface {
+	return &fakevirtualv1alpha1.FakeVirtualV1alpha1{Fake: &c.Fake}
+}
+
+// VlanV1alpha1 retrieves the VlanV1alpha1Client
+func (c *Clientset) VlanV1alpha1() vlanv1alpha1.VlanV1alpha1Interface {
+	return &fakevlanv1alpha1.FakeVlanV1alpha1{Fake: &c.Fake}
+}
+
+// VolumeV1alpha1 retrieves the VolumeV1alpha1Client
+func (c *Clientset) VolumeV1alpha1() volumev1alpha1.VolumeV1alpha1Interface {
+	return &fakevolumev1alpha1.FakeVolumeV1alpha1{Fake: &c.Fake}
 }
