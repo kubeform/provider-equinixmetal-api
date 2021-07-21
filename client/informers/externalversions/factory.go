@@ -24,8 +24,21 @@ import (
 	time "time"
 
 	versioned "kubeform.dev/provider-equinixmetal-api/client/clientset/versioned"
+	bgp "kubeform.dev/provider-equinixmetal-api/client/informers/externalversions/bgp"
+	connection "kubeform.dev/provider-equinixmetal-api/client/informers/externalversions/connection"
+	device "kubeform.dev/provider-equinixmetal-api/client/informers/externalversions/device"
 	internalinterfaces "kubeform.dev/provider-equinixmetal-api/client/informers/externalversions/internalinterfaces"
-	metal "kubeform.dev/provider-equinixmetal-api/client/informers/externalversions/metal"
+	ip "kubeform.dev/provider-equinixmetal-api/client/informers/externalversions/ip"
+	organization "kubeform.dev/provider-equinixmetal-api/client/informers/externalversions/organization"
+	port "kubeform.dev/provider-equinixmetal-api/client/informers/externalversions/port"
+	project "kubeform.dev/provider-equinixmetal-api/client/informers/externalversions/project"
+	reserved "kubeform.dev/provider-equinixmetal-api/client/informers/externalversions/reserved"
+	spot "kubeform.dev/provider-equinixmetal-api/client/informers/externalversions/spot"
+	ssh "kubeform.dev/provider-equinixmetal-api/client/informers/externalversions/ssh"
+	user "kubeform.dev/provider-equinixmetal-api/client/informers/externalversions/user"
+	virtual "kubeform.dev/provider-equinixmetal-api/client/informers/externalversions/virtual"
+	vlan "kubeform.dev/provider-equinixmetal-api/client/informers/externalversions/vlan"
+	volume "kubeform.dev/provider-equinixmetal-api/client/informers/externalversions/volume"
 
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"
@@ -173,9 +186,74 @@ type SharedInformerFactory interface {
 	ForResource(resource schema.GroupVersionResource) (GenericInformer, error)
 	WaitForCacheSync(stopCh <-chan struct{}) map[reflect.Type]bool
 
-	Metal() metal.Interface
+	Bgp() bgp.Interface
+	Connection() connection.Interface
+	Device() device.Interface
+	Ip() ip.Interface
+	Organization() organization.Interface
+	Port() port.Interface
+	Project() project.Interface
+	Reserved() reserved.Interface
+	Spot() spot.Interface
+	Ssh() ssh.Interface
+	User() user.Interface
+	Virtual() virtual.Interface
+	Vlan() vlan.Interface
+	Volume() volume.Interface
 }
 
-func (f *sharedInformerFactory) Metal() metal.Interface {
-	return metal.New(f, f.namespace, f.tweakListOptions)
+func (f *sharedInformerFactory) Bgp() bgp.Interface {
+	return bgp.New(f, f.namespace, f.tweakListOptions)
+}
+
+func (f *sharedInformerFactory) Connection() connection.Interface {
+	return connection.New(f, f.namespace, f.tweakListOptions)
+}
+
+func (f *sharedInformerFactory) Device() device.Interface {
+	return device.New(f, f.namespace, f.tweakListOptions)
+}
+
+func (f *sharedInformerFactory) Ip() ip.Interface {
+	return ip.New(f, f.namespace, f.tweakListOptions)
+}
+
+func (f *sharedInformerFactory) Organization() organization.Interface {
+	return organization.New(f, f.namespace, f.tweakListOptions)
+}
+
+func (f *sharedInformerFactory) Port() port.Interface {
+	return port.New(f, f.namespace, f.tweakListOptions)
+}
+
+func (f *sharedInformerFactory) Project() project.Interface {
+	return project.New(f, f.namespace, f.tweakListOptions)
+}
+
+func (f *sharedInformerFactory) Reserved() reserved.Interface {
+	return reserved.New(f, f.namespace, f.tweakListOptions)
+}
+
+func (f *sharedInformerFactory) Spot() spot.Interface {
+	return spot.New(f, f.namespace, f.tweakListOptions)
+}
+
+func (f *sharedInformerFactory) Ssh() ssh.Interface {
+	return ssh.New(f, f.namespace, f.tweakListOptions)
+}
+
+func (f *sharedInformerFactory) User() user.Interface {
+	return user.New(f, f.namespace, f.tweakListOptions)
+}
+
+func (f *sharedInformerFactory) Virtual() virtual.Interface {
+	return virtual.New(f, f.namespace, f.tweakListOptions)
+}
+
+func (f *sharedInformerFactory) Vlan() vlan.Interface {
+	return vlan.New(f, f.namespace, f.tweakListOptions)
+}
+
+func (f *sharedInformerFactory) Volume() volume.Interface {
+	return volume.New(f, f.namespace, f.tweakListOptions)
 }

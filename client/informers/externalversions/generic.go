@@ -21,7 +21,20 @@ package externalversions
 import (
 	"fmt"
 
-	v1alpha1 "kubeform.dev/provider-equinixmetal-api/apis/metal/v1alpha1"
+	v1alpha1 "kubeform.dev/provider-equinixmetal-api/apis/bgp/v1alpha1"
+	connectionv1alpha1 "kubeform.dev/provider-equinixmetal-api/apis/connection/v1alpha1"
+	devicev1alpha1 "kubeform.dev/provider-equinixmetal-api/apis/device/v1alpha1"
+	ipv1alpha1 "kubeform.dev/provider-equinixmetal-api/apis/ip/v1alpha1"
+	organizationv1alpha1 "kubeform.dev/provider-equinixmetal-api/apis/organization/v1alpha1"
+	portv1alpha1 "kubeform.dev/provider-equinixmetal-api/apis/port/v1alpha1"
+	projectv1alpha1 "kubeform.dev/provider-equinixmetal-api/apis/project/v1alpha1"
+	reservedv1alpha1 "kubeform.dev/provider-equinixmetal-api/apis/reserved/v1alpha1"
+	spotv1alpha1 "kubeform.dev/provider-equinixmetal-api/apis/spot/v1alpha1"
+	sshv1alpha1 "kubeform.dev/provider-equinixmetal-api/apis/ssh/v1alpha1"
+	userv1alpha1 "kubeform.dev/provider-equinixmetal-api/apis/user/v1alpha1"
+	virtualv1alpha1 "kubeform.dev/provider-equinixmetal-api/apis/virtual/v1alpha1"
+	vlanv1alpha1 "kubeform.dev/provider-equinixmetal-api/apis/vlan/v1alpha1"
+	volumev1alpha1 "kubeform.dev/provider-equinixmetal-api/apis/volume/v1alpha1"
 
 	schema "k8s.io/apimachinery/pkg/runtime/schema"
 	cache "k8s.io/client-go/tools/cache"
@@ -53,43 +66,69 @@ func (f *genericInformer) Lister() cache.GenericLister {
 // TODO extend this to unknown resources with a client pool
 func (f *sharedInformerFactory) ForResource(resource schema.GroupVersionResource) (GenericInformer, error) {
 	switch resource {
-	// Group=metal.equinixmetal.kubeform.com, Version=v1alpha1
-	case v1alpha1.SchemeGroupVersion.WithResource("bgpsessions"):
-		return &genericInformer{resource: resource.GroupResource(), informer: f.Metal().V1alpha1().BgpSessions().Informer()}, nil
-	case v1alpha1.SchemeGroupVersion.WithResource("connections"):
-		return &genericInformer{resource: resource.GroupResource(), informer: f.Metal().V1alpha1().Connections().Informer()}, nil
-	case v1alpha1.SchemeGroupVersion.WithResource("devices"):
-		return &genericInformer{resource: resource.GroupResource(), informer: f.Metal().V1alpha1().Devices().Informer()}, nil
-	case v1alpha1.SchemeGroupVersion.WithResource("devicenetworktypes"):
-		return &genericInformer{resource: resource.GroupResource(), informer: f.Metal().V1alpha1().DeviceNetworkTypes().Informer()}, nil
-	case v1alpha1.SchemeGroupVersion.WithResource("ipattachments"):
-		return &genericInformer{resource: resource.GroupResource(), informer: f.Metal().V1alpha1().IpAttachments().Informer()}, nil
-	case v1alpha1.SchemeGroupVersion.WithResource("organizations"):
-		return &genericInformer{resource: resource.GroupResource(), informer: f.Metal().V1alpha1().Organizations().Informer()}, nil
-	case v1alpha1.SchemeGroupVersion.WithResource("portvlanattachments"):
-		return &genericInformer{resource: resource.GroupResource(), informer: f.Metal().V1alpha1().PortVLANAttachments().Informer()}, nil
-	case v1alpha1.SchemeGroupVersion.WithResource("projects"):
-		return &genericInformer{resource: resource.GroupResource(), informer: f.Metal().V1alpha1().Projects().Informer()}, nil
-	case v1alpha1.SchemeGroupVersion.WithResource("projectapikeys"):
-		return &genericInformer{resource: resource.GroupResource(), informer: f.Metal().V1alpha1().ProjectAPIKeys().Informer()}, nil
-	case v1alpha1.SchemeGroupVersion.WithResource("projectsshkeys"):
-		return &genericInformer{resource: resource.GroupResource(), informer: f.Metal().V1alpha1().ProjectSSHKeys().Informer()}, nil
-	case v1alpha1.SchemeGroupVersion.WithResource("reservedipblocks"):
-		return &genericInformer{resource: resource.GroupResource(), informer: f.Metal().V1alpha1().ReservedIPBlocks().Informer()}, nil
-	case v1alpha1.SchemeGroupVersion.WithResource("spotmarketrequests"):
-		return &genericInformer{resource: resource.GroupResource(), informer: f.Metal().V1alpha1().SpotMarketRequests().Informer()}, nil
-	case v1alpha1.SchemeGroupVersion.WithResource("sshkeys"):
-		return &genericInformer{resource: resource.GroupResource(), informer: f.Metal().V1alpha1().SshKeys().Informer()}, nil
-	case v1alpha1.SchemeGroupVersion.WithResource("userapikeys"):
-		return &genericInformer{resource: resource.GroupResource(), informer: f.Metal().V1alpha1().UserAPIKeys().Informer()}, nil
-	case v1alpha1.SchemeGroupVersion.WithResource("virtualcircuits"):
-		return &genericInformer{resource: resource.GroupResource(), informer: f.Metal().V1alpha1().VirtualCircuits().Informer()}, nil
-	case v1alpha1.SchemeGroupVersion.WithResource("vlans"):
-		return &genericInformer{resource: resource.GroupResource(), informer: f.Metal().V1alpha1().Vlans().Informer()}, nil
-	case v1alpha1.SchemeGroupVersion.WithResource("volumes"):
-		return &genericInformer{resource: resource.GroupResource(), informer: f.Metal().V1alpha1().Volumes().Informer()}, nil
-	case v1alpha1.SchemeGroupVersion.WithResource("volumeattachments"):
-		return &genericInformer{resource: resource.GroupResource(), informer: f.Metal().V1alpha1().VolumeAttachments().Informer()}, nil
+	// Group=bgp.equinixmetal.kubeform.com, Version=v1alpha1
+	case v1alpha1.SchemeGroupVersion.WithResource("sessions"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Bgp().V1alpha1().Sessions().Informer()}, nil
+
+		// Group=connection.equinixmetal.kubeform.com, Version=v1alpha1
+	case connectionv1alpha1.SchemeGroupVersion.WithResource("connections"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Connection().V1alpha1().Connections().Informer()}, nil
+
+		// Group=device.equinixmetal.kubeform.com, Version=v1alpha1
+	case devicev1alpha1.SchemeGroupVersion.WithResource("devices"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Device().V1alpha1().Devices().Informer()}, nil
+	case devicev1alpha1.SchemeGroupVersion.WithResource("networktypes"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Device().V1alpha1().NetworkTypes().Informer()}, nil
+
+		// Group=ip.equinixmetal.kubeform.com, Version=v1alpha1
+	case ipv1alpha1.SchemeGroupVersion.WithResource("attachments"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Ip().V1alpha1().Attachments().Informer()}, nil
+
+		// Group=organization.equinixmetal.kubeform.com, Version=v1alpha1
+	case organizationv1alpha1.SchemeGroupVersion.WithResource("organizations"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Organization().V1alpha1().Organizations().Informer()}, nil
+
+		// Group=port.equinixmetal.kubeform.com, Version=v1alpha1
+	case portv1alpha1.SchemeGroupVersion.WithResource("vlanattachments"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Port().V1alpha1().VlanAttachments().Informer()}, nil
+
+		// Group=project.equinixmetal.kubeform.com, Version=v1alpha1
+	case projectv1alpha1.SchemeGroupVersion.WithResource("apikeys"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Project().V1alpha1().ApiKeys().Informer()}, nil
+	case projectv1alpha1.SchemeGroupVersion.WithResource("projects"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Project().V1alpha1().Projects().Informer()}, nil
+	case projectv1alpha1.SchemeGroupVersion.WithResource("sshkeys"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Project().V1alpha1().SshKeys().Informer()}, nil
+
+		// Group=reserved.equinixmetal.kubeform.com, Version=v1alpha1
+	case reservedv1alpha1.SchemeGroupVersion.WithResource("ipblocks"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Reserved().V1alpha1().IpBlocks().Informer()}, nil
+
+		// Group=spot.equinixmetal.kubeform.com, Version=v1alpha1
+	case spotv1alpha1.SchemeGroupVersion.WithResource("marketrequests"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Spot().V1alpha1().MarketRequests().Informer()}, nil
+
+		// Group=ssh.equinixmetal.kubeform.com, Version=v1alpha1
+	case sshv1alpha1.SchemeGroupVersion.WithResource("keys"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Ssh().V1alpha1().Keys().Informer()}, nil
+
+		// Group=user.equinixmetal.kubeform.com, Version=v1alpha1
+	case userv1alpha1.SchemeGroupVersion.WithResource("apikeys"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.User().V1alpha1().ApiKeys().Informer()}, nil
+
+		// Group=virtual.equinixmetal.kubeform.com, Version=v1alpha1
+	case virtualv1alpha1.SchemeGroupVersion.WithResource("circuits"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Virtual().V1alpha1().Circuits().Informer()}, nil
+
+		// Group=vlan.equinixmetal.kubeform.com, Version=v1alpha1
+	case vlanv1alpha1.SchemeGroupVersion.WithResource("vlans"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Vlan().V1alpha1().Vlans().Informer()}, nil
+
+		// Group=volume.equinixmetal.kubeform.com, Version=v1alpha1
+	case volumev1alpha1.SchemeGroupVersion.WithResource("attachments"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Volume().V1alpha1().Attachments().Informer()}, nil
+	case volumev1alpha1.SchemeGroupVersion.WithResource("volumes"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Volume().V1alpha1().Volumes().Informer()}, nil
 
 	}
 
