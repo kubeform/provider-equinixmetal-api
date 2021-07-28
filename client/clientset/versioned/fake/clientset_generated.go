@@ -26,6 +26,8 @@ import (
 	fakeconnectionv1alpha1 "kubeform.dev/provider-equinixmetal-api/client/clientset/versioned/typed/connection/v1alpha1/fake"
 	devicev1alpha1 "kubeform.dev/provider-equinixmetal-api/client/clientset/versioned/typed/device/v1alpha1"
 	fakedevicev1alpha1 "kubeform.dev/provider-equinixmetal-api/client/clientset/versioned/typed/device/v1alpha1/fake"
+	gatewayv1alpha1 "kubeform.dev/provider-equinixmetal-api/client/clientset/versioned/typed/gateway/v1alpha1"
+	fakegatewayv1alpha1 "kubeform.dev/provider-equinixmetal-api/client/clientset/versioned/typed/gateway/v1alpha1/fake"
 	ipv1alpha1 "kubeform.dev/provider-equinixmetal-api/client/clientset/versioned/typed/ip/v1alpha1"
 	fakeipv1alpha1 "kubeform.dev/provider-equinixmetal-api/client/clientset/versioned/typed/ip/v1alpha1/fake"
 	organizationv1alpha1 "kubeform.dev/provider-equinixmetal-api/client/clientset/versioned/typed/organization/v1alpha1"
@@ -116,6 +118,11 @@ func (c *Clientset) ConnectionV1alpha1() connectionv1alpha1.ConnectionV1alpha1In
 // DeviceV1alpha1 retrieves the DeviceV1alpha1Client
 func (c *Clientset) DeviceV1alpha1() devicev1alpha1.DeviceV1alpha1Interface {
 	return &fakedevicev1alpha1.FakeDeviceV1alpha1{Fake: &c.Fake}
+}
+
+// GatewayV1alpha1 retrieves the GatewayV1alpha1Client
+func (c *Clientset) GatewayV1alpha1() gatewayv1alpha1.GatewayV1alpha1Interface {
+	return &fakegatewayv1alpha1.FakeGatewayV1alpha1{Fake: &c.Fake}
 }
 
 // IpV1alpha1 retrieves the IpV1alpha1Client

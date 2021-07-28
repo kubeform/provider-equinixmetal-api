@@ -27,6 +27,7 @@ import (
 	bgp "kubeform.dev/provider-equinixmetal-api/client/informers/externalversions/bgp"
 	connection "kubeform.dev/provider-equinixmetal-api/client/informers/externalversions/connection"
 	device "kubeform.dev/provider-equinixmetal-api/client/informers/externalversions/device"
+	gateway "kubeform.dev/provider-equinixmetal-api/client/informers/externalversions/gateway"
 	internalinterfaces "kubeform.dev/provider-equinixmetal-api/client/informers/externalversions/internalinterfaces"
 	ip "kubeform.dev/provider-equinixmetal-api/client/informers/externalversions/ip"
 	organization "kubeform.dev/provider-equinixmetal-api/client/informers/externalversions/organization"
@@ -189,6 +190,7 @@ type SharedInformerFactory interface {
 	Bgp() bgp.Interface
 	Connection() connection.Interface
 	Device() device.Interface
+	Gateway() gateway.Interface
 	Ip() ip.Interface
 	Organization() organization.Interface
 	Port() port.Interface
@@ -212,6 +214,10 @@ func (f *sharedInformerFactory) Connection() connection.Interface {
 
 func (f *sharedInformerFactory) Device() device.Interface {
 	return device.New(f, f.namespace, f.tweakListOptions)
+}
+
+func (f *sharedInformerFactory) Gateway() gateway.Interface {
+	return gateway.New(f, f.namespace, f.tweakListOptions)
 }
 
 func (f *sharedInformerFactory) Ip() ip.Interface {

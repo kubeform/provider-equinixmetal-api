@@ -24,6 +24,7 @@ import (
 	bgpv1alpha1 "kubeform.dev/provider-equinixmetal-api/client/clientset/versioned/typed/bgp/v1alpha1"
 	connectionv1alpha1 "kubeform.dev/provider-equinixmetal-api/client/clientset/versioned/typed/connection/v1alpha1"
 	devicev1alpha1 "kubeform.dev/provider-equinixmetal-api/client/clientset/versioned/typed/device/v1alpha1"
+	gatewayv1alpha1 "kubeform.dev/provider-equinixmetal-api/client/clientset/versioned/typed/gateway/v1alpha1"
 	ipv1alpha1 "kubeform.dev/provider-equinixmetal-api/client/clientset/versioned/typed/ip/v1alpha1"
 	organizationv1alpha1 "kubeform.dev/provider-equinixmetal-api/client/clientset/versioned/typed/organization/v1alpha1"
 	portv1alpha1 "kubeform.dev/provider-equinixmetal-api/client/clientset/versioned/typed/port/v1alpha1"
@@ -46,6 +47,7 @@ type Interface interface {
 	BgpV1alpha1() bgpv1alpha1.BgpV1alpha1Interface
 	ConnectionV1alpha1() connectionv1alpha1.ConnectionV1alpha1Interface
 	DeviceV1alpha1() devicev1alpha1.DeviceV1alpha1Interface
+	GatewayV1alpha1() gatewayv1alpha1.GatewayV1alpha1Interface
 	IpV1alpha1() ipv1alpha1.IpV1alpha1Interface
 	OrganizationV1alpha1() organizationv1alpha1.OrganizationV1alpha1Interface
 	PortV1alpha1() portv1alpha1.PortV1alpha1Interface
@@ -66,6 +68,7 @@ type Clientset struct {
 	bgpV1alpha1          *bgpv1alpha1.BgpV1alpha1Client
 	connectionV1alpha1   *connectionv1alpha1.ConnectionV1alpha1Client
 	deviceV1alpha1       *devicev1alpha1.DeviceV1alpha1Client
+	gatewayV1alpha1      *gatewayv1alpha1.GatewayV1alpha1Client
 	ipV1alpha1           *ipv1alpha1.IpV1alpha1Client
 	organizationV1alpha1 *organizationv1alpha1.OrganizationV1alpha1Client
 	portV1alpha1         *portv1alpha1.PortV1alpha1Client
@@ -92,6 +95,11 @@ func (c *Clientset) ConnectionV1alpha1() connectionv1alpha1.ConnectionV1alpha1In
 // DeviceV1alpha1 retrieves the DeviceV1alpha1Client
 func (c *Clientset) DeviceV1alpha1() devicev1alpha1.DeviceV1alpha1Interface {
 	return c.deviceV1alpha1
+}
+
+// GatewayV1alpha1 retrieves the GatewayV1alpha1Client
+func (c *Clientset) GatewayV1alpha1() gatewayv1alpha1.GatewayV1alpha1Interface {
+	return c.gatewayV1alpha1
 }
 
 // IpV1alpha1 retrieves the IpV1alpha1Client
@@ -182,6 +190,10 @@ func NewForConfig(c *rest.Config) (*Clientset, error) {
 	if err != nil {
 		return nil, err
 	}
+	cs.gatewayV1alpha1, err = gatewayv1alpha1.NewForConfig(&configShallowCopy)
+	if err != nil {
+		return nil, err
+	}
 	cs.ipV1alpha1, err = ipv1alpha1.NewForConfig(&configShallowCopy)
 	if err != nil {
 		return nil, err
@@ -241,6 +253,7 @@ func NewForConfigOrDie(c *rest.Config) *Clientset {
 	cs.bgpV1alpha1 = bgpv1alpha1.NewForConfigOrDie(c)
 	cs.connectionV1alpha1 = connectionv1alpha1.NewForConfigOrDie(c)
 	cs.deviceV1alpha1 = devicev1alpha1.NewForConfigOrDie(c)
+	cs.gatewayV1alpha1 = gatewayv1alpha1.NewForConfigOrDie(c)
 	cs.ipV1alpha1 = ipv1alpha1.NewForConfigOrDie(c)
 	cs.organizationV1alpha1 = organizationv1alpha1.NewForConfigOrDie(c)
 	cs.portV1alpha1 = portv1alpha1.NewForConfigOrDie(c)
@@ -263,6 +276,7 @@ func New(c rest.Interface) *Clientset {
 	cs.bgpV1alpha1 = bgpv1alpha1.New(c)
 	cs.connectionV1alpha1 = connectionv1alpha1.New(c)
 	cs.deviceV1alpha1 = devicev1alpha1.New(c)
+	cs.gatewayV1alpha1 = gatewayv1alpha1.New(c)
 	cs.ipV1alpha1 = ipv1alpha1.New(c)
 	cs.organizationV1alpha1 = organizationv1alpha1.New(c)
 	cs.portV1alpha1 = portv1alpha1.New(c)

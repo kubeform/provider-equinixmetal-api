@@ -24,6 +24,7 @@ import (
 	v1alpha1 "kubeform.dev/provider-equinixmetal-api/apis/bgp/v1alpha1"
 	connectionv1alpha1 "kubeform.dev/provider-equinixmetal-api/apis/connection/v1alpha1"
 	devicev1alpha1 "kubeform.dev/provider-equinixmetal-api/apis/device/v1alpha1"
+	gatewayv1alpha1 "kubeform.dev/provider-equinixmetal-api/apis/gateway/v1alpha1"
 	ipv1alpha1 "kubeform.dev/provider-equinixmetal-api/apis/ip/v1alpha1"
 	organizationv1alpha1 "kubeform.dev/provider-equinixmetal-api/apis/organization/v1alpha1"
 	portv1alpha1 "kubeform.dev/provider-equinixmetal-api/apis/port/v1alpha1"
@@ -79,6 +80,10 @@ func (f *sharedInformerFactory) ForResource(resource schema.GroupVersionResource
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Device().V1alpha1().Devices().Informer()}, nil
 	case devicev1alpha1.SchemeGroupVersion.WithResource("networktypes"):
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Device().V1alpha1().NetworkTypes().Informer()}, nil
+
+		// Group=gateway.equinixmetal.kubeform.com, Version=v1alpha1
+	case gatewayv1alpha1.SchemeGroupVersion.WithResource("gateways"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Gateway().V1alpha1().Gateways().Informer()}, nil
 
 		// Group=ip.equinixmetal.kubeform.com, Version=v1alpha1
 	case ipv1alpha1.SchemeGroupVersion.WithResource("attachments"):
