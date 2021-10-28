@@ -34,17 +34,17 @@ import (
 // +kubebuilder:subresource:status
 // +kubebuilder:printcolumn:name="Phase",type=string,JSONPath=`.status.phase`
 
-type Circuit struct {
+type Port struct {
 	metav1.TypeMeta   `json:",inline,omitempty"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              CircuitSpec   `json:"spec,omitempty"`
-	Status            CircuitStatus `json:"status,omitempty"`
+	Spec              PortSpec   `json:"spec,omitempty"`
+	Status            PortStatus `json:"status,omitempty"`
 }
 
-type CircuitSpec struct {
-	State *CircuitSpecResource `json:"state,omitempty" tf:"-"`
+type PortSpec struct {
+	State *PortSpecResource `json:"state,omitempty" tf:"-"`
 
-	Resource CircuitSpecResource `json:"resource" tf:"resource"`
+	Resource PortSpecResource `json:"resource" tf:"resource"`
 
 	UpdatePolicy base.UpdatePolicy `json:"updatePolicy,omitempty" tf:"-"`
 
@@ -55,44 +55,54 @@ type CircuitSpec struct {
 	BackendRef *core.LocalObjectReference `json:"backendRef,omitempty" tf:"-"`
 }
 
-type CircuitSpecResource struct {
+type PortSpecResource struct {
+	Timeouts *base.ResourceTimeout `json:"timeouts,omitempty" tf:"timeouts"`
+
 	ID string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// UUID of Connection where the VC is scoped to
-	ConnectionID *string `json:"connectionID" tf:"connection_id"`
-	// Description of the Virtual Circuit resource
+	// UUID of the bond port
 	// +optional
-	Description *string `json:"description,omitempty" tf:"description"`
-	// Name of the Virtual Circuit resource
+	BondID *string `json:"bondID,omitempty" tf:"bond_id"`
+	// Name of the bond port
+	// +optional
+	BondName *string `json:"bondName,omitempty" tf:"bond_name"`
+	// Flag indicating whether the port should be bonded
+	Bonded *bool `json:"bonded" tf:"bonded"`
+	// Flag indicating whether the port can be removed from a bond
+	// +optional
+	DisbondSupported *bool `json:"disbondSupported,omitempty" tf:"disbond_supported"`
+	// Flag indicating whether the port is in layer2 (or layer3) mode
+	// +optional
+	Layer2 *bool `json:"layer2,omitempty" tf:"layer2"`
+	// MAC address of the port
+	// +optional
+	Mac *string `json:"mac,omitempty" tf:"mac"`
+	// Name of the port to look up, e.g. bond0, eth1
 	// +optional
 	Name *string `json:"name,omitempty" tf:"name"`
-	// Equinix Metal network-to-network VLAN ID (optional when the connection has mode=tunnel)
+	// UUID of native VLAN of the port
 	// +optional
-	NniVLAN *int64 `json:"nniVLAN,omitempty" tf:"nni_vlan"`
-	// Nni VLAN ID parameter, see https://metal.equinix.com/developers/docs/networking/fabric/
+	NativeVLANID *string `json:"nativeVLANID,omitempty" tf:"native_vlan_id"`
+	// One of layer2-bonded, layer2-individual, layer3, hybrid and hybrid-bonded. This attribute is only set on bond ports.
 	// +optional
-	NniVnid *int64 `json:"nniVnid,omitempty" tf:"nni_vnid"`
-	// UUID of the Connection Port where the VC is scoped to
+	NetworkType *string `json:"networkType,omitempty" tf:"network_type"`
+	// UUID of the port to lookup
 	PortID *string `json:"portID" tf:"port_id"`
-	// UUID of the Project where the VC is scoped to
-	ProjectID *string `json:"projectID" tf:"project_id"`
-	// Description of the Virtual Circuit speed. This is for information purposes and is computed when the connection type is shared.
+	// Behavioral setting to reset the port to default settings. For a bond port it means layer3 without vlans attached, eth ports will be bonded without native vlan and vlans attached
 	// +optional
-	Speed *string `json:"speed,omitempty" tf:"speed"`
-	// Status of the virtual circuit resource
+	ResetOnDelete *bool `json:"resetOnDelete,omitempty" tf:"reset_on_delete"`
+	// Port type
 	// +optional
-	Status *string `json:"status,omitempty" tf:"status"`
-	// Tags attached to the virtual circuit
+	Type *string `json:"type,omitempty" tf:"type"`
+	// UUIDs VLANs to attach. To avoid jitter, use the UUID and not the VXLAN
 	// +optional
-	Tags []string `json:"tags,omitempty" tf:"tags"`
-	// UUID of the VLAN to associate
-	VlanID *string `json:"vlanID" tf:"vlan_id"`
-	// VNID VLAN parameter, see https://metal.equinix.com/developers/docs/networking/fabric/
+	VlanIDS []string `json:"vlanIDS,omitempty" tf:"vlan_ids"`
+	// VLAN VXLAN ids to attach (example: [1000])
 	// +optional
-	Vnid *int64 `json:"vnid,omitempty" tf:"vnid"`
+	VxlanIDS []int64 `json:"vxlanIDS,omitempty" tf:"vxlan_ids"`
 }
 
-type CircuitStatus struct {
+type PortStatus struct {
 	// Resource generation, which is updated on mutation by the API Server.
 	// +optional
 	ObservedGeneration int64 `json:"observedGeneration,omitempty"`
@@ -105,10 +115,10 @@ type CircuitStatus struct {
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 // +kubebuilder:object:root=true
 
-// CircuitList is a list of Circuits
-type CircuitList struct {
+// PortList is a list of Ports
+type PortList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	// Items is a list of Circuit CRD objects
-	Items []Circuit `json:"items,omitempty"`
+	// Items is a list of Port CRD objects
+	Items []Port `json:"items,omitempty"`
 }

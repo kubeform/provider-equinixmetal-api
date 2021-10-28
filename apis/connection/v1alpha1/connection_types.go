@@ -91,6 +91,9 @@ type ConnectionSpecResource struct {
 	// Metro where to the connection will be created
 	// +optional
 	Metro *string `json:"metro,omitempty" tf:"metro"`
+	// Mode for connections in IBX facilities with the dedicated type - standard or tunnel
+	// +optional
+	Mode *string `json:"mode,omitempty" tf:"mode"`
 	// Name of the connection resource
 	Name *string `json:"name" tf:"name"`
 	// ID of the organization responsible for the connection
@@ -109,6 +112,9 @@ type ConnectionSpecResource struct {
 	// Status of the connection resource
 	// +optional
 	Status *string `json:"status,omitempty" tf:"status"`
+	// Tags attached to the connection
+	// +optional
+	Tags []string `json:"tags,omitempty" tf:"tags"`
 	// Fabric Token from the [Equinix Fabric Portal](https://ecxfabric.equinix.com/dashboard)
 	// +optional
 	Token *string `json:"token,omitempty" tf:"token"`

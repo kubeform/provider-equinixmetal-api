@@ -108,7 +108,8 @@ spec:
                       your next available reservation automatically
                     type: string
                   hostname:
-                    description: The device name
+                    description: The device hostname used in deployments taking advantage
+                      of Layer3 DHCP or metadata service configuration.
                     type: string
                   id:
                     type: string
@@ -258,6 +259,11 @@ spec:
                     items:
                       type: string
                     type: array
+                  terminationTime:
+                    description: Timestamp for device termination. For example "2021-09-03T16:32:00+03:00".
+                      If you don't supply timezone info, timestamp is assumed to be
+                      in UTC.
+                    type: string
                   timeouts:
                     properties:
                       create:
@@ -305,8 +311,6 @@ spec:
                       is marked provisionable (about 4 minutes in August 2019)
                     type: boolean
                 required:
-                - billingCycle
-                - hostname
                 - operatingSystem
                 - plan
                 - projectID
@@ -373,7 +377,8 @@ spec:
                       your next available reservation automatically
                     type: string
                   hostname:
-                    description: The device name
+                    description: The device hostname used in deployments taking advantage
+                      of Layer3 DHCP or metadata service configuration.
                     type: string
                   id:
                     type: string
@@ -523,6 +528,11 @@ spec:
                     items:
                       type: string
                     type: array
+                  terminationTime:
+                    description: Timestamp for device termination. For example "2021-09-03T16:32:00+03:00".
+                      If you don't supply timezone info, timestamp is assumed to be
+                      in UTC.
+                    type: string
                   timeouts:
                     properties:
                       create:
@@ -570,8 +580,6 @@ spec:
                       is marked provisionable (about 4 minutes in August 2019)
                     type: boolean
                 required:
-                - billingCycle
-                - hostname
                 - operatingSystem
                 - plan
                 - projectID

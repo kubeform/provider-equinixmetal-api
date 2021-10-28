@@ -94,6 +94,8 @@ func (f *sharedInformerFactory) ForResource(resource schema.GroupVersionResource
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Organization().V1alpha1().Organizations().Informer()}, nil
 
 		// Group=port.equinixmetal.kubeform.com, Version=v1alpha1
+	case portv1alpha1.SchemeGroupVersion.WithResource("ports"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Port().V1alpha1().Ports().Informer()}, nil
 	case portv1alpha1.SchemeGroupVersion.WithResource("vlanattachments"):
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Port().V1alpha1().VlanAttachments().Informer()}, nil
 

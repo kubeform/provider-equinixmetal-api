@@ -60,13 +60,17 @@ spec:
                   connectionID:
                     description: UUID of Connection where the VC is scoped to
                     type: string
+                  description:
+                    description: Description of the Virtual Circuit resource
+                    type: string
                   id:
                     type: string
                   name:
                     description: Name of the Virtual Circuit resource
                     type: string
                   nniVLAN:
-                    description: Equinix Metal network-to-network VLAN ID
+                    description: Equinix Metal network-to-network VLAN ID (optional
+                      when the connection has mode=tunnel)
                     format: int64
                     type: integer
                   nniVnid:
@@ -80,9 +84,19 @@ spec:
                   projectID:
                     description: UUID of the Project where the VC is scoped to
                     type: string
+                  speed:
+                    description: Description of the Virtual Circuit speed. This is
+                      for information purposes and is computed when the connection
+                      type is shared.
+                    type: string
                   status:
                     description: Status of the virtual circuit resource
                     type: string
+                  tags:
+                    description: Tags attached to the virtual circuit
+                    items:
+                      type: string
+                    type: array
                   vlanID:
                     description: UUID of the VLAN to associate
                     type: string
@@ -92,7 +106,6 @@ spec:
                     type: integer
                 required:
                 - connectionID
-                - nniVLAN
                 - portID
                 - projectID
                 - vlanID
@@ -102,13 +115,17 @@ spec:
                   connectionID:
                     description: UUID of Connection where the VC is scoped to
                     type: string
+                  description:
+                    description: Description of the Virtual Circuit resource
+                    type: string
                   id:
                     type: string
                   name:
                     description: Name of the Virtual Circuit resource
                     type: string
                   nniVLAN:
-                    description: Equinix Metal network-to-network VLAN ID
+                    description: Equinix Metal network-to-network VLAN ID (optional
+                      when the connection has mode=tunnel)
                     format: int64
                     type: integer
                   nniVnid:
@@ -122,9 +139,19 @@ spec:
                   projectID:
                     description: UUID of the Project where the VC is scoped to
                     type: string
+                  speed:
+                    description: Description of the Virtual Circuit speed. This is
+                      for information purposes and is computed when the connection
+                      type is shared.
+                    type: string
                   status:
                     description: Status of the virtual circuit resource
                     type: string
+                  tags:
+                    description: Tags attached to the virtual circuit
+                    items:
+                      type: string
+                    type: array
                   vlanID:
                     description: UUID of the VLAN to associate
                     type: string
@@ -134,7 +161,6 @@ spec:
                     type: integer
                 required:
                 - connectionID
-                - nniVLAN
                 - portID
                 - projectID
                 - vlanID

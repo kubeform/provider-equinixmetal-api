@@ -191,6 +191,11 @@ func (in *ConnectionSpecResource) DeepCopyInto(out *ConnectionSpecResource) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.Mode != nil {
+		in, out := &in.Mode, &out.Mode
+		*out = new(string)
+		**out = **in
+	}
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
 		*out = new(string)
@@ -227,6 +232,11 @@ func (in *ConnectionSpecResource) DeepCopyInto(out *ConnectionSpecResource) {
 		in, out := &in.Status, &out.Status
 		*out = new(string)
 		**out = **in
+	}
+	if in.Tags != nil {
+		in, out := &in.Tags, &out.Tags
+		*out = make([]string, len(*in))
+		copy(*out, *in)
 	}
 	if in.Token != nil {
 		in, out := &in.Token, &out.Token

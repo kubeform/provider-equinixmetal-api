@@ -42,13 +42,11 @@ func (r *Connection) SetupWebhookWithManager(mgr ctrl.Manager) error {
 var _ webhook.Validator = &Connection{}
 
 var connectionForceNewList = map[string]bool{
-	"/description":     true,
 	"/facility":        true,
 	"/metro":           true,
 	"/name":            true,
 	"/organization_id": true,
 	"/project_id":      true,
-	"/redundancy":      true,
 	"/type":            true,
 }
 

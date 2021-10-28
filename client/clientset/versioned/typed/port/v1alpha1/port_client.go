@@ -27,12 +27,17 @@ import (
 
 type PortV1alpha1Interface interface {
 	RESTClient() rest.Interface
+	PortsGetter
 	VlanAttachmentsGetter
 }
 
 // PortV1alpha1Client is used to interact with features provided by the port.equinixmetal.kubeform.com group.
 type PortV1alpha1Client struct {
 	restClient rest.Interface
+}
+
+func (c *PortV1alpha1Client) Ports(namespace string) PortInterface {
+	return newPorts(c, namespace)
 }
 
 func (c *PortV1alpha1Client) VlanAttachments(namespace string) VlanAttachmentInterface {

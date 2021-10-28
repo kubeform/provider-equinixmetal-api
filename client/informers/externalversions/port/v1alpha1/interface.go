@@ -24,6 +24,8 @@ import (
 
 // Interface provides access to all the informers in this group version.
 type Interface interface {
+	// Ports returns a PortInformer.
+	Ports() PortInformer
 	// VlanAttachments returns a VlanAttachmentInformer.
 	VlanAttachments() VlanAttachmentInformer
 }
@@ -37,6 +39,11 @@ type version struct {
 // New returns a new Interface.
 func New(f internalinterfaces.SharedInformerFactory, namespace string, tweakListOptions internalinterfaces.TweakListOptionsFunc) Interface {
 	return &version{factory: f, namespace: namespace, tweakListOptions: tweakListOptions}
+}
+
+// Ports returns a PortInformer.
+func (v *version) Ports() PortInformer {
+	return &portInformer{factory: v.factory, namespace: v.namespace, tweakListOptions: v.tweakListOptions}
 }
 
 // VlanAttachments returns a VlanAttachmentInformer.
