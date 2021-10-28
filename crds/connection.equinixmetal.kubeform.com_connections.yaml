@@ -68,6 +68,10 @@ spec:
                   metro:
                     description: Metro where to the connection will be created
                     type: string
+                  mode:
+                    description: Mode for connections in IBX facilities with the dedicated
+                      type - standard or tunnel
+                    type: string
                   name:
                     description: Name of the connection resource
                     type: string
@@ -120,6 +124,11 @@ spec:
                   status:
                     description: Status of the connection resource
                     type: string
+                  tags:
+                    description: Tags attached to the connection
+                    items:
+                      type: string
+                    type: array
                   token:
                     description: Fabric Token from the [Equinix Fabric Portal](https://ecxfabric.equinix.com/dashboard)
                     type: string
@@ -145,6 +154,10 @@ spec:
                   metro:
                     description: Metro where to the connection will be created
                     type: string
+                  mode:
+                    description: Mode for connections in IBX facilities with the dedicated
+                      type - standard or tunnel
+                    type: string
                   name:
                     description: Name of the connection resource
                     type: string
@@ -197,6 +210,11 @@ spec:
                   status:
                     description: Status of the connection resource
                     type: string
+                  tags:
+                    description: Tags attached to the connection
+                    items:
+                      type: string
+                    type: array
                   token:
                     description: Fabric Token from the [Equinix Fabric Portal](https://ecxfabric.equinix.com/dashboard)
                     type: string

@@ -135,7 +135,8 @@ type DeviceSpecResource struct {
 	// +optional
 	AlwaysPxe *bool `json:"alwaysPxe,omitempty" tf:"always_pxe"`
 	// monthly or hourly
-	BillingCycle *string `json:"billingCycle" tf:"billing_cycle"`
+	// +optional
+	BillingCycle *string `json:"billingCycle,omitempty" tf:"billing_cycle"`
 	// The timestamp for when the device was created
 	// +optional
 	Created *string `json:"created,omitempty" tf:"created"`
@@ -161,8 +162,9 @@ type DeviceSpecResource struct {
 	// The UUID of the hardware reservation where you want this device deployed, or next-available if you want to pick your next available reservation automatically
 	// +optional
 	HardwareReservationID *string `json:"hardwareReservationID,omitempty" tf:"hardware_reservation_id"`
-	// The device name
-	Hostname *string `json:"hostname" tf:"hostname"`
+	// The device hostname used in deployments taking advantage of Layer3 DHCP or metadata service configuration.
+	// +optional
+	Hostname *string `json:"hostname,omitempty" tf:"hostname"`
 	// A list of IP address types for the device (structure is documented below)
 	// +optional
 	// +kubebuilder:validation:MinItems=1
@@ -212,6 +214,9 @@ type DeviceSpecResource struct {
 	// Tags attached to the device
 	// +optional
 	Tags []string `json:"tags,omitempty" tf:"tags"`
+	// Timestamp for device termination. For example "2021-09-03T16:32:00+03:00". If you don't supply timezone info, timestamp is assumed to be in UTC.
+	// +optional
+	TerminationTime *string `json:"terminationTime,omitempty" tf:"termination_time"`
 	// The timestamp for the last time the device was updated
 	// +optional
 	Updated *string `json:"updated,omitempty" tf:"updated"`

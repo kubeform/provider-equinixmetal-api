@@ -124,6 +124,11 @@ func (in *CircuitSpecResource) DeepCopyInto(out *CircuitSpecResource) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.Description != nil {
+		in, out := &in.Description, &out.Description
+		*out = new(string)
+		**out = **in
+	}
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
 		*out = new(string)
@@ -149,10 +154,20 @@ func (in *CircuitSpecResource) DeepCopyInto(out *CircuitSpecResource) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.Speed != nil {
+		in, out := &in.Speed, &out.Speed
+		*out = new(string)
+		**out = **in
+	}
 	if in.Status != nil {
 		in, out := &in.Status, &out.Status
 		*out = new(string)
 		**out = **in
+	}
+	if in.Tags != nil {
+		in, out := &in.Tags, &out.Tags
+		*out = make([]string, len(*in))
+		copy(*out, *in)
 	}
 	if in.VlanID != nil {
 		in, out := &in.VlanID, &out.VlanID

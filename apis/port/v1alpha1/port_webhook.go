@@ -31,36 +31,32 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/webhook"
 )
 
-func (r *Circuit) SetupWebhookWithManager(mgr ctrl.Manager) error {
+func (r *Port) SetupWebhookWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewWebhookManagedBy(mgr).
 		For(r).
 		Complete()
 }
 
-//+kubebuilder:webhook:verbs=create;update;delete,path=/validate-virtual-equinixmetal-kubeform-com-v1alpha1-circuit,mutating=false,failurePolicy=fail,groups=virtual.equinixmetal.kubeform.com,resources=circuits,versions=v1alpha1,name=circuit.virtual.equinixmetal.kubeform.io,sideEffects=None,admissionReviewVersions=v1
+//+kubebuilder:webhook:verbs=create;update;delete,path=/validate-port-equinixmetal-kubeform-com-v1alpha1-port,mutating=false,failurePolicy=fail,groups=port.equinixmetal.kubeform.com,resources=ports,versions=v1alpha1,name=port.port.equinixmetal.kubeform.io,sideEffects=None,admissionReviewVersions=v1
 
-var _ webhook.Validator = &Circuit{}
+var _ webhook.Validator = &Port{}
 
-var circuitForceNewList = map[string]bool{
-	"/connection_id": true,
-	"/nni_vlan":      true,
-	"/port_id":       true,
-	"/project_id":    true,
-	"/vlan_id":       true,
+var portForceNewList = map[string]bool{
+	"/port_id": true,
 }
 
 // ValidateCreate implements webhook.Validator so a webhook will be registered for the type
-func (r *Circuit) ValidateCreate() error {
+func (r *Port) ValidateCreate() error {
 	return nil
 }
 
 // ValidateUpdate implements webhook.Validator so a webhook will be registered for the type
-func (r *Circuit) ValidateUpdate(old runtime.Object) error {
+func (r *Port) ValidateUpdate(old runtime.Object) error {
 	if r.Spec.Resource.ID == "" {
 		return nil
 	}
 	newObj := r.Spec.Resource
-	res := old.(*Circuit)
+	res := old.(*Port)
 	oldObj := res.Spec.Resource
 
 	jsnitr := jsoniter.Config{
@@ -92,7 +88,7 @@ func (r *Circuit) ValidateUpdate(old runtime.Object) error {
 		return err
 	}
 
-	for key := range circuitForceNewList {
+	for key := range portForceNewList {
 		keySplit := strings.Split(key, "/*")
 		length := len(keySplit)
 		checkIfAnyDif := false
@@ -100,16 +96,16 @@ func (r *Circuit) ValidateUpdate(old runtime.Object) error {
 		util.CheckIfAnyDifference("", keySplit, 0, length, &checkIfAnyDif, tempNew, tempOld, tempNew)
 
 		if checkIfAnyDif && r.Spec.UpdatePolicy == base.UpdatePolicyDoNotDestroy {
-			return fmt.Errorf(`circuit "%v/%v" immutable field can't be updated. To update, change spec.updatePolicy to Destroy`, r.Namespace, r.Name)
+			return fmt.Errorf(`port "%v/%v" immutable field can't be updated. To update, change spec.updatePolicy to Destroy`, r.Namespace, r.Name)
 		}
 	}
 	return nil
 }
 
 // ValidateDelete implements webhook.Validator so a webhook will be registered for the type
-func (r *Circuit) ValidateDelete() error {
+func (r *Port) ValidateDelete() error {
 	if r.Spec.TerminationPolicy == base.TerminationPolicyDoNotTerminate {
-		return fmt.Errorf(`circuit "%v/%v" can't be terminated. To delete, change spec.terminationPolicy to Delete`, r.Namespace, r.Name)
+		return fmt.Errorf(`port "%v/%v" can't be terminated. To delete, change spec.terminationPolicy to Delete`, r.Namespace, r.Name)
 	}
 	return nil
 }

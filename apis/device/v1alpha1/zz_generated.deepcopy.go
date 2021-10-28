@@ -436,6 +436,11 @@ func (in *DeviceSpecResource) DeepCopyInto(out *DeviceSpecResource) {
 		*out = make([]string, len(*in))
 		copy(*out, *in)
 	}
+	if in.TerminationTime != nil {
+		in, out := &in.TerminationTime, &out.TerminationTime
+		*out = new(string)
+		**out = **in
+	}
 	if in.Updated != nil {
 		in, out := &in.Updated, &out.Updated
 		*out = new(string)

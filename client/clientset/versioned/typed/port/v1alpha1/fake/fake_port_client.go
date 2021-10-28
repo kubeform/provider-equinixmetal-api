@@ -29,6 +29,10 @@ type FakePortV1alpha1 struct {
 	*testing.Fake
 }
 
+func (c *FakePortV1alpha1) Ports(namespace string) v1alpha1.PortInterface {
+	return &FakePorts{c, namespace}
+}
+
 func (c *FakePortV1alpha1) VlanAttachments(namespace string) v1alpha1.VlanAttachmentInterface {
 	return &FakeVlanAttachments{c, namespace}
 }
