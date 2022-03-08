@@ -69,6 +69,12 @@ spec:
                     type: integer
                   cidrNotation:
                     type: string
+                  customData:
+                    description: Custom Data is an arbitrary object (submitted in
+                      Terraform as serialized JSON) to assign to the IP Reservation.
+                      This may be helpful for self-managed IPAM. The object must be
+                      valid JSON.
+                    type: string
                   description:
                     description: Arbitrary description
                     type: string
@@ -118,9 +124,54 @@ spec:
                     items:
                       type: string
                     type: array
+                  timeouts:
+                    properties:
+                      create:
+                        description: A Duration represents the elapsed time between
+                          two instants as an int64 nanosecond count. The representation
+                          limits the largest representable duration to approximately
+                          290 years.
+                        format: int64
+                        type: integer
+                      default:
+                        description: A Duration represents the elapsed time between
+                          two instants as an int64 nanosecond count. The representation
+                          limits the largest representable duration to approximately
+                          290 years.
+                        format: int64
+                        type: integer
+                      delete:
+                        description: A Duration represents the elapsed time between
+                          two instants as an int64 nanosecond count. The representation
+                          limits the largest representable duration to approximately
+                          290 years.
+                        format: int64
+                        type: integer
+                      read:
+                        description: A Duration represents the elapsed time between
+                          two instants as an int64 nanosecond count. The representation
+                          limits the largest representable duration to approximately
+                          290 years.
+                        format: int64
+                        type: integer
+                      update:
+                        description: A Duration represents the elapsed time between
+                          two instants as an int64 nanosecond count. The representation
+                          limits the largest representable duration to approximately
+                          290 years.
+                        format: int64
+                        type: integer
+                    type: object
                   type:
                     description: Either global_ipv4 or public_ipv4, defaults to public_ipv4
                       for backward compatibility
+                    type: string
+                  waitForState:
+                    description: 'Wait for the IP reservation block to reach a desired
+                      state on resource creation. One of: `pending`, `created`. The
+                      `created` state is default and recommended if the addresses
+                      are needed within the configuration. An error will be returned
+                      if a timeout or the `denied` state is encountered.'
                     type: string
                 required:
                 - projectID
@@ -140,6 +191,12 @@ spec:
                     type: integer
                   cidrNotation:
                     type: string
+                  customData:
+                    description: Custom Data is an arbitrary object (submitted in
+                      Terraform as serialized JSON) to assign to the IP Reservation.
+                      This may be helpful for self-managed IPAM. The object must be
+                      valid JSON.
+                    type: string
                   description:
                     description: Arbitrary description
                     type: string
@@ -189,9 +246,54 @@ spec:
                     items:
                       type: string
                     type: array
+                  timeouts:
+                    properties:
+                      create:
+                        description: A Duration represents the elapsed time between
+                          two instants as an int64 nanosecond count. The representation
+                          limits the largest representable duration to approximately
+                          290 years.
+                        format: int64
+                        type: integer
+                      default:
+                        description: A Duration represents the elapsed time between
+                          two instants as an int64 nanosecond count. The representation
+                          limits the largest representable duration to approximately
+                          290 years.
+                        format: int64
+                        type: integer
+                      delete:
+                        description: A Duration represents the elapsed time between
+                          two instants as an int64 nanosecond count. The representation
+                          limits the largest representable duration to approximately
+                          290 years.
+                        format: int64
+                        type: integer
+                      read:
+                        description: A Duration represents the elapsed time between
+                          two instants as an int64 nanosecond count. The representation
+                          limits the largest representable duration to approximately
+                          290 years.
+                        format: int64
+                        type: integer
+                      update:
+                        description: A Duration represents the elapsed time between
+                          two instants as an int64 nanosecond count. The representation
+                          limits the largest representable duration to approximately
+                          290 years.
+                        format: int64
+                        type: integer
+                    type: object
                   type:
                     description: Either global_ipv4 or public_ipv4, defaults to public_ipv4
                       for backward compatibility
+                    type: string
+                  waitForState:
+                    description: 'Wait for the IP reservation block to reach a desired
+                      state on resource creation. One of: `pending`, `created`. The
+                      `created` state is default and recommended if the addresses
+                      are needed within the configuration. An error will be returned
+                      if a timeout or the `denied` state is encountered.'
                     type: string
                 required:
                 - projectID

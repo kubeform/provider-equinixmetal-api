@@ -56,6 +56,8 @@ type IpBlockSpec struct {
 }
 
 type IpBlockSpecResource struct {
+	Timeouts *base.ResourceTimeout `json:"timeouts,omitempty" tf:"timeouts"`
+
 	ID string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// +optional
@@ -68,6 +70,9 @@ type IpBlockSpecResource struct {
 	Cidr *int64 `json:"cidr,omitempty" tf:"cidr"`
 	// +optional
 	CidrNotation *string `json:"cidrNotation,omitempty" tf:"cidr_notation"`
+	// Custom Data is an arbitrary object (submitted in Terraform as serialized JSON) to assign to the IP Reservation. This may be helpful for self-managed IPAM. The object must be valid JSON.
+	// +optional
+	CustomData *string `json:"customData,omitempty" tf:"custom_data"`
 	// Arbitrary description
 	// +optional
 	Description *string `json:"description,omitempty" tf:"description"`
@@ -105,6 +110,9 @@ type IpBlockSpecResource struct {
 	// Either global_ipv4 or public_ipv4, defaults to public_ipv4 for backward compatibility
 	// +optional
 	Type *string `json:"type,omitempty" tf:"type"`
+	// Wait for the IP reservation block to reach a desired state on resource creation. One of: `pending`, `created`. The `created` state is default and recommended if the addresses are needed within the configuration. An error will be returned if a timeout or the `denied` state is encountered.
+	// +optional
+	WaitForState *string `json:"waitForState,omitempty" tf:"wait_for_state"`
 }
 
 type IpBlockStatus struct {

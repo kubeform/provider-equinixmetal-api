@@ -42,13 +42,11 @@ func (r *IpBlock) SetupWebhookWithManager(mgr ctrl.Manager) error {
 var _ webhook.Validator = &IpBlock{}
 
 var ipblockForceNewList = map[string]bool{
-	"/description": true,
-	"/facility":    true,
-	"/metro":       true,
-	"/project_id":  true,
-	"/quantity":    true,
-	"/tags":        true,
-	"/type":        true,
+	"/facility":   true,
+	"/metro":      true,
+	"/project_id": true,
+	"/quantity":   true,
+	"/type":       true,
 }
 
 // ValidateCreate implements webhook.Validator so a webhook will be registered for the type
@@ -94,7 +92,7 @@ func (r *IpBlock) ValidateUpdate(old runtime.Object) error {
 		return err
 	}
 
-	for key := range ipblockForceNewList {
+	for key, _ := range ipblockForceNewList {
 		keySplit := strings.Split(key, "/*")
 		length := len(keySplit)
 		checkIfAnyDif := false

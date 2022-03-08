@@ -65,6 +65,27 @@ type ConnectionSpecPorts struct {
 	VirtualCircuitIDS *map[string]string `json:"virtualCircuitIDS,omitempty" tf:"virtual_circuit_ids"`
 }
 
+type ConnectionSpecServiceTokens struct {
+	// Expiration date of the service token
+	// +optional
+	ExpiresAt *string `json:"expiresAt,omitempty" tf:"expires_at"`
+	// ID of the service token
+	// +optional
+	ID *string `json:"ID,omitempty" tf:"id"`
+	// Maximum allowed speed for the service token
+	// +optional
+	MaxAllowedSpeed *string `json:"maxAllowedSpeed,omitempty" tf:"max_allowed_speed"`
+	// Role of the service token
+	// +optional
+	Role *string `json:"role,omitempty" tf:"role"`
+	// State of the service token
+	// +optional
+	State *string `json:"state,omitempty" tf:"state"`
+	// Type of the service token, a_side or z_side
+	// +optional
+	Type *string `json:"type,omitempty" tf:"type"`
+}
+
 type ConnectionSpec struct {
 	State *ConnectionSpecResource `json:"state,omitempty" tf:"-"`
 
@@ -88,7 +109,7 @@ type ConnectionSpecResource struct {
 	// Facility where the connection will be created
 	// +optional
 	Facility *string `json:"facility,omitempty" tf:"facility"`
-	// Metro where to the connection will be created
+	// Metro where the connection will be created
 	// +optional
 	Metro *string `json:"metro,omitempty" tf:"metro"`
 	// Mode for connections in IBX facilities with the dedicated type - standard or tunnel
@@ -97,18 +118,24 @@ type ConnectionSpecResource struct {
 	// Name of the connection resource
 	Name *string `json:"name" tf:"name"`
 	// ID of the organization responsible for the connection
-	OrganizationID *string `json:"organizationID" tf:"organization_id"`
+	// +optional
+	// Deprecated
+	OrganizationID *string `json:"organizationID,omitempty" tf:"organization_id"`
 	// List of connection ports - primary (`ports[0]`) and secondary (`ports[1]`)
 	// +optional
 	Ports []ConnectionSpecPorts `json:"ports,omitempty" tf:"ports"`
 	// ID of the project where the connection is scoped to, only used for type == "shared"
-	// +optional
-	ProjectID *string `json:"projectID,omitempty" tf:"project_id"`
+	ProjectID *string `json:"projectID" tf:"project_id"`
 	// Connection redundancy - redundant or primary
 	Redundancy *string `json:"redundancy" tf:"redundancy"`
-	// Port speed in bits per second
+	// Only used with shared connection. Type of service token to use for the connection, a_side or z_side.
 	// +optional
-	Speed *int64 `json:"speed,omitempty" tf:"speed"`
+	ServiceTokenType *string `json:"serviceTokenType,omitempty" tf:"service_token_type"`
+	// Only used with shared connection. List of service tokens to use for the connection.
+	// +optional
+	ServiceTokens []ConnectionSpecServiceTokens `json:"serviceTokens,omitempty" tf:"service_tokens"`
+	// Port speed. Allowed values are 50Mbps, 200Mbps, 500Mbps, 1Gbps, 2Gbps, 5Gbps, 10Gbps
+	Speed *string `json:"speed" tf:"speed"`
 	// Status of the connection resource
 	// +optional
 	Status *string `json:"status,omitempty" tf:"status"`
@@ -117,9 +144,14 @@ type ConnectionSpecResource struct {
 	Tags []string `json:"tags,omitempty" tf:"tags"`
 	// Fabric Token from the [Equinix Fabric Portal](https://ecxfabric.equinix.com/dashboard)
 	// +optional
+	// Deprecated
 	Token *string `json:"token,omitempty" tf:"token"`
 	// Connection type - dedicated or shared
 	Type *string `json:"type" tf:"type"`
+	// Only used with shared connection. Vlans to attach. Pass one vlan for Primary/Single connection and two vlans for Redundant connection.
+	// +optional
+	// +kubebuilder:validation:MaxItems=2
+	Vlans []int64 `json:"vlans,omitempty" tf:"vlans"`
 }
 
 type ConnectionStatus struct {
