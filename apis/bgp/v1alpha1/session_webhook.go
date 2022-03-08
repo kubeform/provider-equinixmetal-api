@@ -90,7 +90,7 @@ func (r *Session) ValidateUpdate(old runtime.Object) error {
 		return err
 	}
 
-	for key := range sessionForceNewList {
+	for key, _ := range sessionForceNewList {
 		keySplit := strings.Split(key, "/*")
 		length := len(keySplit)
 		checkIfAnyDif := false
